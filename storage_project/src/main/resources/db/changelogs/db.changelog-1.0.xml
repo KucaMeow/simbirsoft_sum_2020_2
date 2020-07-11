@@ -7,15 +7,15 @@
 
     <changeSet id="1" author="Stepan">
         <createTable tableName="users">
-            <column name="id" type="bigint"/>
+            <column name="id" type="bigint" autoIncrement="true"/>
             <column name="username" type="varchar(32)"/>
             <column name="password_hash" type="varchar(60)"/>
             <column name="balance" type="float"/>
         </createTable>
 
         <createTable tableName="transactions">
-            <column name="id" type="bigint"/>
-            <column name="date" type="date"/>
+            <column name="id" type="bigint" autoIncrement="true"/>
+            <column name="date" type="timestamp"/>
             <column name="cost_sum" type="float"/>
         </createTable>
 
@@ -25,46 +25,78 @@
         </createTable>
 
         <createTable tableName="products">
-            <column name="id" type="bigint"/>
-            <column name="product_type" type="varchar(64)"/>
+            <column name="id" type="bigint" autoIncrement="true"/>
             <column name="quantity" type="float"/>
-            <column name="metric_type" type="varchar(10)"/>
             <column name="cost" type="float"/>
+            <column name="product_type_id" type="bigint"/>
+            <column name="metric_id" type="bigint"/>
         </createTable>
 
         <createTable tableName="orders">
-            <column name="id" type="bigint"/>
+            <column name="id" type="bigint" autoIncrement="true"/>
             <column name="user_id" type="bigint"/>
             <column name="transaction_id" type="bigint"/>
-            <column name="order_status" type="varchar(32)"/>
-        </createTable>
-    </changeSet>
-    <changeSet id="2" author="Stepan">
-        <dropColumn tableName="products" columnName="product_type"/>
-        <dropColumn tableName="products" columnName="metric_type"/>
-        <addColumn tableName="products">
-            <column name="product_type_id" type="bigint"/>
-            <column name="metric_id" type="bigint"/>
-        </addColumn>
-
-        <dropColumn tableName="orders" columnName="order_status"/>
-        <addColumn tableName="orders">
             <column name="status_id" type="bigint"/>
-        </addColumn>
+        </createTable>
 
+    </changeSet>
+
+    <changeSet id="2" author="Stepan">
         <createTable tableName="order_statuses">
-            <column name="id" type="bigint"/>
+            <column name="id" type="bigint" autoIncrement="true"/>
             <column name="order_status" type="varchar(64)"/>
         </createTable>
 
         <createTable tableName="metric_types">
-            <column name="id" type="bigint"/>
+            <column name="id" type="bigint" autoIncrement="true"/>
             <column name="metric_type" type="varchar(64)"/>
         </createTable>
 
         <createTable tableName="product_types">
-            <column name="id" type="bigint"/>
+            <column name="id" type="bigint" autoIncrement="true"/>
             <column name="product_type" type="varchar(64)"/>
         </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="Stepan">
+        <insert tableName="metric_types">
+            <column name="metric_type" value="pack"/>
+        </insert>
+        <insert tableName="metric_types">
+            <column name="metric_type" value="kg"/>
+        </insert>
+        <insert tableName="metric_types">
+            <column name="metric_type" value="l"/>
+        </insert>
+
+        <insert tableName="product_types">
+            <column name="product_type" value="Clothes"/>
+        </insert>
+        <insert tableName="product_types">
+            <column name="product_type" value="Device"/>
+        </insert>
+        <insert tableName="product_types">
+            <column name="product_type" value="Food"/>
+        </insert>
+        <insert tableName="product_types">
+            <column name="product_type" value="Sweets"/>
+        </insert>
+
+        <insert tableName="order_statuses">
+            <column name="order_status" value="Created"/>
+        </insert>
+        <insert tableName="order_statuses">
+            <column name="order_status" value="Payed"/>
+        </insert>
+        <insert tableName="order_statuses">
+            <column name="order_status" value="Finished"/>
+        </insert>
+    </changeSet>
+    <changeSet id="4" author="Stepan">
+        <insert tableName="users">
+            <column name="username" value="admin"/>
+            <column name="password_hash" value="$2a$10$kfYvG5ubMbTU1ZyMbHtk2eh/gY9OHmxJS8OUWFi4SXqRvKzQ6/uNK"/>
+            <column name="balance" value="10000000"/>
+        </insert>
     </changeSet>
 </databaseChangeLog>

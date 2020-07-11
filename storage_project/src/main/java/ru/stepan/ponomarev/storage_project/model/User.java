@@ -26,8 +26,8 @@ public class User {
     String hashedPassword;
 
     @Column(name = "balance")
-    float balance;
+    double balance;
 
-    @OneToMany
+    @OneToMany(mappedBy = "customer")
     List<Order> orders;
 }

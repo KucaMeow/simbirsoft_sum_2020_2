@@ -22,12 +22,12 @@ public class Product {
     @JoinColumn(name = "product_type_id")
     ProductType productType;
     @Column(name = "quantity")
-    float quantity;
+    double quantity;
     @ManyToOne
     @JoinColumn(name = "metric_id")
     private MetricType metricType;
     @Column(name = "cost")
-    float cost;
+    double cost;
 
     public String getMetcicType() {
         return metricType.metric;

@@ -30,6 +30,6 @@ public class Transaction {
     List<Product> productList;
 
     @Column(name = "cost_sum")
-    float cost_sum;
+    double cost_sum;
 
 }

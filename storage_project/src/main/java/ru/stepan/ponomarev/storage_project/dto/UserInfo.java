@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
  * Info of user accounts to be shown for user
  */
 public class UserInfo {
-
     String username;
-    float balance;
+    double balance;
 }
