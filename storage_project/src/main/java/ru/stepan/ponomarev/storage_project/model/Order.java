@@ -12,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +27,15 @@ public class Order {
     @JoinColumn(name = "transaction_id")
     Transaction transaction;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "order_status")
-    OrderStatus orderStatus;
+    @ManyToOne
+    @JoinColumn(name = "status_id")
+    private OrderStatus orderStatus;
+
+    public String getOrderStatus() {
+        return orderStatus.status;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 }

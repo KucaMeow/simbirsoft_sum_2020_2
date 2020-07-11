@@ -39,4 +39,32 @@
             <column name="order_status" type="varchar(32)"/>
         </createTable>
     </changeSet>
+    <changeSet id="2" author="Stepan">
+        <dropColumn tableName="products" columnName="product_type"/>
+        <dropColumn tableName="products" columnName="metric_type"/>
+        <addColumn tableName="products">
+            <column name="product_type_id" type="bigint"/>
+            <column name="metric_id" type="bigint"/>
+        </addColumn>
+
+        <dropColumn tableName="orders" columnName="order_status"/>
+        <addColumn tableName="orders">
+            <column name="status_id" type="bigint"/>
+        </addColumn>
+
+        <createTable tableName="order_statuses">
+            <column name="id" type="bigint"/>
+            <column name="order_status" type="varchar(64)"/>
+        </createTable>
+
+        <createTable tableName="metric_types">
+            <column name="id" type="bigint"/>
+            <column name="metric_type" type="varchar(64)"/>
+        </createTable>
+
+        <createTable tableName="product_types">
+            <column name="id" type="bigint"/>
+            <column name="product_type" type="varchar(64)"/>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

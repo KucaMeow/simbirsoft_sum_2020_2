@@ -12,18 +12,24 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     long id;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "product_type")
+    @ManyToOne
+    @JoinColumn(name = "product_type_id")
     ProductType productType;
     @Column(name = "quantity")
     float quantity;
-    @Column(name = "metric_type")
-    MetricType metricType;
+    @ManyToOne
+    @JoinColumn(name = "metric_id")
+    private MetricType metricType;
     @Column(name = "cost")
     float cost;
+
+    public String getMetcicType() {
+        return metricType.metric;
+    }
 }
