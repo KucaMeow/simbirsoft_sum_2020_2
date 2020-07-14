@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -14,19 +13,16 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "transactions")
-public class Transaction {
+@Table(name = "shops")
+public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     long id;
-    @Column(name = "timestamp")
-    Date date;
-
-    @OneToMany(mappedBy = "transaction")
-    List<TransactionProductsInfo> productList;
-
-    @Column(name = "cost_sum")
-    double cost_sum;
-
+    @Column(name = "shop_name")
+    String name;
+    @Column(name = "address")
+    String address;
+    @OneToMany(mappedBy = "shop")
+    List<ProductsInfo> products;
 }

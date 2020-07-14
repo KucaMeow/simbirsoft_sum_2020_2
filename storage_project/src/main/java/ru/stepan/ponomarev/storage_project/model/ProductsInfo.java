@@ -6,27 +6,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "transactions")
-public class Transaction {
+@Table(name = "product_infos")
+public class ProductsInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column (name = "id")
     long id;
-    @Column(name = "timestamp")
-    Date date;
-
-    @OneToMany(mappedBy = "transaction")
-    List<TransactionProductsInfo> productList;
-
-    @Column(name = "cost_sum")
-    double cost_sum;
-
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    Product product;
+    @Column(name = "quantity")
+    int quantity;
+    @ManyToOne
+    @JoinColumn(name = "shop_id")
+    Shop shop;
+    @Column(name = "is_at_storage")
+    boolean atStorage;
 }

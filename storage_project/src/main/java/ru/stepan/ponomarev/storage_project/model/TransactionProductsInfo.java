@@ -8,30 +8,29 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
+@Table (name = "transaction_products_info")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "products")
-public class Product {
+public class TransactionProductsInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     long id;
-    @Column(name = "name")
-    String name;
+    @ManyToOne
+    @JoinColumn (name = "product_id")
+    Product product;
     @Column(name = "quantity")
-    double quantity;
+    int quantity;
     @ManyToOne
-    @JoinColumn(name = "product_type_id")
-    ProductType productType;
+    @JoinColumn(name = "shop_id")
+    Shop shop;
+    @Column(name = "is_at_storage")
+    boolean atStorage;
     @ManyToOne
-    @JoinColumn(name = "metric_id")
-    private MetricType metricType;
-    @Column(name = "cost")
-    double cost;
-
-    public String getMetcicType() {
-        return metricType.metric;
-    }
+    @JoinColumn(name = "transaction_id")
+    Transaction transaction;
+    @Column(name = "current_cost")
+    double currentCost;
 }
