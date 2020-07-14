@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * User class
+ */
 @Entity
 @Table(name = "users")
 @Data
@@ -15,6 +18,9 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class User {
+    /**
+     * User id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -25,9 +31,15 @@ public class User {
     @Column(name = "password_hash")
     String hashedPassword;
 
+    /**
+     * Current user balance
+     */
     @Column(name = "balance")
     double balance;
 
+    /**
+     * All saver orders of user
+     */
     @OneToMany(mappedBy = "customer")
     List<Order> orders;
 }

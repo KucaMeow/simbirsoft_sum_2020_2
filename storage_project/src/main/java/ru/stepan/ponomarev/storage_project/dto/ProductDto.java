@@ -6,19 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Info of user accounts to be shown for user. Gets by jpa custom query
+ * Dto object for product
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserInfo {
-    /**
-     * Username of user
-     */
-    String username;
-    /**
-     * Balance of user
-     */
-    double balance;
+public class ProductDto {
+    long id;
+    String name;
+    double quantity;
+    long productTypeId;
+    long metricTypeId;
+    double cost;
 }
