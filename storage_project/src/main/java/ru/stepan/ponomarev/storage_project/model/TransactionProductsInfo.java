@@ -23,7 +23,7 @@ public class TransactionProductsInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    long id;
+    Long id;
 
     /**
      * Product. Sets the product which is recorded in this package

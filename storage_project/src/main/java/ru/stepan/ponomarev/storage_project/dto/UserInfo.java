@@ -1,9 +1,6 @@
 package ru.stepan.ponomarev.storage_project.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * Info of user accounts to be shown for user. Gets by jpa custom query
@@ -12,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EqualsAndHashCode
 public class UserInfo {
     /**
      * Username of user
