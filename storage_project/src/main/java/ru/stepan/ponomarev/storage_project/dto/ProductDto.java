@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ProductDto {
-    long id;
+    Long id;
     String name;
     double quantity;
     long productTypeId;

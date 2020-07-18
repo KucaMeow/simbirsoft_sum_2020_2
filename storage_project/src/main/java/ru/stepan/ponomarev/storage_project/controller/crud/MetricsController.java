@@ -1,19 +1,14 @@
 package ru.stepan.ponomarev.storage_project.controller.crud;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.stepan.ponomarev.storage_project.model.MetricType;
-import ru.stepan.ponomarev.storage_project.repository.MetricTypeRepository;
 import ru.stepan.ponomarev.storage_project.service.MetricTypesCrudService;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Controller for metric types crud operations

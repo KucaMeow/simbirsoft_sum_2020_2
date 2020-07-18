@@ -2,16 +2,13 @@ package ru.stepan.ponomarev.storage_project.controller.crud;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.stepan.ponomarev.storage_project.model.ProductType;
-import ru.stepan.ponomarev.storage_project.repository.ProductTypeRepository;
 import ru.stepan.ponomarev.storage_project.service.ProductTypesCrudService;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Controller for product type type crud operations
