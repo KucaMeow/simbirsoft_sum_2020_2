@@ -16,7 +16,7 @@ import ru.stepan.ponomarev.storage_project.model.MetricType;
 import ru.stepan.ponomarev.storage_project.model.Product;
 import ru.stepan.ponomarev.storage_project.model.ProductType;
 import ru.stepan.ponomarev.storage_project.service.DtoMapper;
-import ru.stepan.ponomarev.storage_project.service.ProductsCrudService;
+import ru.stepan.ponomarev.storage_project.service.ProductsCrudServiceImpl;
 
 import java.util.Arrays;
 
@@ -39,7 +39,7 @@ public class ProductsControllerTest {
     DtoMapper dtoMapper;
 
     @MockBean
-    ProductsCrudService service;
+    ProductsCrudServiceImpl service;
 
     Product product1;
     Product product2;

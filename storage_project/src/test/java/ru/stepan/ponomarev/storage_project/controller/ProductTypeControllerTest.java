@@ -12,9 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.stepan.ponomarev.storage_project.model.MetricType;
 import ru.stepan.ponomarev.storage_project.model.ProductType;
-import ru.stepan.ponomarev.storage_project.service.MetricTypesCrudService;
 import ru.stepan.ponomarev.storage_project.service.ProductTypesCrudService;
 
 import java.util.Arrays;

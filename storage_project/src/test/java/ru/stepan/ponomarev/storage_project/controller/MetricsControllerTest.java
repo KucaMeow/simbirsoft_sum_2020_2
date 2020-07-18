@@ -13,11 +13,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.stepan.ponomarev.storage_project.model.MetricType;
-import ru.stepan.ponomarev.storage_project.service.MetricTypesCrudService;
+import ru.stepan.ponomarev.storage_project.service.MetricTypesCrudServiceImpl;
 
 import java.util.Arrays;
 
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -34,7 +33,7 @@ public class MetricsControllerTest {
     ObjectMapper objectMapper;
 
     @MockBean
-    MetricTypesCrudService service;
+    MetricTypesCrudServiceImpl service;
 
     MetricType metricType1;
     MetricType metricType2;
