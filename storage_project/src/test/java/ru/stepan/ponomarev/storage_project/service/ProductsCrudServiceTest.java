@@ -1,11 +1,14 @@
 package ru.stepan.ponomarev.storage_project.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import ru.stepan.ponomarev.storage_project.dto.ProductDto;
 import ru.stepan.ponomarev.storage_project.model.MetricType;
@@ -29,6 +32,8 @@ public class ProductsCrudServiceTest {
     ProductCrudService service;
     @Autowired
     DtoMapper dtoMapper;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @MockBean
     ProductsRepository productsRepository;
@@ -40,6 +45,7 @@ public class ProductsCrudServiceTest {
     Product productSaved;
     MetricType metricType;
     ProductType productType;
+    ProductDto productDtoDeleted;
 
     @BeforeEach
     void beforeTests () {
@@ -69,6 +75,14 @@ public class ProductsCrudServiceTest {
                 .name("test1")
                 .quantity(10)
                 .build();
+        productDtoDeleted = ProductDto.builder()
+                .name("test1")
+                .quantity(10)
+                .id(null)
+                .cost(10)
+                .metricTypeId(1L)
+                .productTypeId(1L)
+                .build();
         list = Collections.singletonList(product);
         listDtos = Collections.singletonList(productDto);
         given(productsRepository.findAll()).willReturn(list);
@@ -79,36 +93,36 @@ public class ProductsCrudServiceTest {
 
     @Test
     void showAllProductsShouldReturnListOfProductDtos () {
-        assertEquals(listDtos, service.showAllProducts());
+        assertEquals(ResponseEntity.ok(listDtos), service.showAllProducts());
     }
 
     @Test
     void showAllProductsWithoutMappingShouldReturnListOfProducts () {
-        assertEquals(list, service.showAllProductsWithoutMapping());
+        assertEquals(ResponseEntity.ok(list), service.showAllProductsWithoutMapping());
     }
 
     @Test
     void showProductByValidIdShouldReturnProductDto () {
-        assertEquals(productDto, service.showProductById(1L));
+        assertEquals(ResponseEntity.ok(productDto), service.showProductById(1L));
     }
 
     @Test
     void showProductByInvalidIdShouldReturnNull () {
-        assertNull(service.showProductById(0L));
+        assertEquals(ResponseEntity.notFound().build(), service.showProductById(0L));
     }
 
     @Test
     void showProductByValidIdWithoutMappingShouldReturnProduct () {
-        assertEquals(product, service.showProductByIdWithoutMapping(1L));
+        assertEquals(ResponseEntity.ok(product), service.showProductByIdWithoutMapping(1L));
     }
 
     @Test
     void showProductByInvalidIdWithoutMappingShouldReturnNull () {
-        assertNull(service.showProductByIdWithoutMapping(0L));
+        assertEquals(ResponseEntity.notFound().build(), service.showProductByIdWithoutMapping(0L));
     }
 
     @Test
-    void addOrUpdateProduct () {
+    void addOrUpdateProduct () throws JsonProcessingException {
         ProductDto product = ProductDto.builder()
                 .cost(10)
                 .metricTypeId(1L)
@@ -116,16 +130,16 @@ public class ProductsCrudServiceTest {
                 .name("test2")
                 .quantity(10)
                 .build();
-        assertNotNull(service.addOrUpdateProduct(product).getId());
+        assertEquals(ResponseEntity.ok(dtoMapper.from(productSaved)), service.addOrUpdateProduct(product));
     }
 
     @Test
-    void deleteByValidIdShouldReturnTrue () {
-        Assertions.assertTrue(service.delete(1L));
+    void deleteByValidIdShouldReturnResponseOk () {
+        Assertions.assertEquals(ResponseEntity.ok(productDtoDeleted), service.delete(1L));
     }
 
     @Test
-    void deleteByInvalidIdShouldReturnFalse () {
-        Assertions.assertFalse(service.delete(0L));
+    void deleteByInvalidIdShouldReturnResponseNotFound () {
+        Assertions.assertEquals(ResponseEntity.notFound().build(), service.delete(0L));
     }
 }

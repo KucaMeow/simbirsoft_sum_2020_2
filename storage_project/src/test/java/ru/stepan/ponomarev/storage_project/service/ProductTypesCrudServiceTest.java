@@ -1,11 +1,13 @@
 package ru.stepan.ponomarev.storage_project.service;
 
-import org.junit.jupiter.api.Assertions;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import ru.stepan.ponomarev.storage_project.model.ProductType;
 import ru.stepan.ponomarev.storage_project.repository.ProductTypeRepository;
@@ -24,6 +26,8 @@ public class ProductTypesCrudServiceTest {
 
     @Autowired
     ProductTypeCrudService service;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @MockBean
     ProductTypeRepository productTypeRepository;
@@ -31,11 +35,16 @@ public class ProductTypesCrudServiceTest {
     List<ProductType> list;
     ProductType productType;
     ProductType productTypeSaved;
+    ProductType productTypeDeleted;
 
     @BeforeEach
     void beforeTests () {
         productType = ProductType.builder()
                 .id(1L)
+                .name("test1")
+                .build();
+        productTypeDeleted = ProductType.builder()
+                .id(null)
                 .name("test1")
                 .build();
         productTypeSaved = ProductType.builder()
@@ -51,34 +60,34 @@ public class ProductTypesCrudServiceTest {
 
     @Test
     void showAllProductsTypesShouldReturnList () {
-        assertEquals(list, service.showAllProductsTypes());
+        assertEquals(ResponseEntity.ok(list), service.showAllProductsTypes());
     }
 
     @Test
     void showProductTypeByValidIdShouldReturnProductType () {
-        assertEquals(productType, service.showProductTypeById(1));
+        assertEquals(ResponseEntity.ok(productType), service.showProductTypeById(1));
     }
 
     @Test
-    void showProductTypeByInvalidIdShouldReturnNull () {
-        assertNull(service.showProductTypeById(0));
+    void showProductTypeByInvalidIdShouldReturnResponseNotFound () {
+        assertEquals(ResponseEntity.notFound().build(), service.showProductTypeById(0));
     }
 
     @Test
-    void addOrUpdateProductTypeShouldReturnProductTypeWithId () {
-        ProductType metricType = ProductType.builder()
+    void addOrUpdateProductTypeShouldReturnProductTypeWithId () throws JsonProcessingException {
+        ProductType productType = ProductType.builder()
                 .name("test2")
                 .build();
-        assertNotNull(service.addOrUpdateProductType(metricType).getId());
+        assertEquals(ResponseEntity.ok(productTypeSaved), service.addOrUpdateProductType(productType));
     }
 
     @Test
-    void deleteByValidIdShouldReturnTrue () {
-        Assertions.assertTrue(service.delete(1L));
+    void deleteByValidIdShouldReturnResponseOk () {
+        assertEquals(ResponseEntity.ok(productTypeDeleted), service.delete(1L));
     }
 
     @Test
-    void deleteByInvalidIdShouldReturnFalse () {
-        Assertions.assertFalse(service.delete(0L));
+    void deleteByInvalidIdShouldReturnResponseNotFound () {
+        assertEquals(ResponseEntity.notFound().build(), service.delete(0L));
     }
 }

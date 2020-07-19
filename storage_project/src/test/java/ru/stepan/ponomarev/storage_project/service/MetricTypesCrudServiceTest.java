@@ -1,10 +1,13 @@
 package ru.stepan.ponomarev.storage_project.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import ru.stepan.ponomarev.storage_project.model.MetricType;
 import ru.stepan.ponomarev.storage_project.repository.MetricTypeRepository;
@@ -23,6 +26,8 @@ public class MetricTypesCrudServiceTest {
 
     @Autowired
     MetricTypeCrudService service;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @MockBean
     MetricTypeRepository metricTypeRepository;
@@ -30,11 +35,16 @@ public class MetricTypesCrudServiceTest {
     List<MetricType> list;
     MetricType metricType;
     MetricType metricTypeSaved;
+    MetricType metricTypeDeleted;
 
     @BeforeEach
     void beforeTests () {
         metricType = MetricType.builder()
                 .id(1L)
+                .metric("test1")
+                .build();
+        metricTypeDeleted = MetricType.builder()
+                .id(null)
                 .metric("test1")
                 .build();
         metricTypeSaved = MetricType.builder()
@@ -50,32 +60,34 @@ public class MetricTypesCrudServiceTest {
 
     @Test
     void showAllMetricTypesShouldReturnList () {
-        assertEquals(list, service.showAllMetricTypes());
+        assertEquals(ResponseEntity.ok(list), service.showAllMetricTypes());
     }
 
     @Test
     void showMetricTypeByValidIdShouldReturnMetricType () {
-        assertEquals(metricType, service.showMetricTypeById(1));
+        assertEquals(ResponseEntity.ok(metricType), service.showMetricTypeById(1));
     }
 
     @Test
-    void showMetricTypeByInvalidIdShouldReturnNull () {
-        assertNull(service.showMetricTypeById(0));
+    void showMetricTypeByInvalidIdShouldReturnResponseNotFound () {
+        assertEquals(ResponseEntity.notFound().build(), service.showMetricTypeById(0));
     }
 
     @Test
-    void addOrUpdateMetricTypeShouldReturnMetricTypeWithId () {
-        MetricType metricType = MetricType.builder().metric("test2").build();
-        assertNotNull(service.addOrUpdateMetricType(metricType).getId());
+    void addOrUpdateMetricTypeShouldReturnResponseOk () {
+        MetricType metricType = MetricType.builder()
+                .metric("test2")
+                .build();
+        assertEquals(ResponseEntity.ok(metricTypeSaved), service.addOrUpdateMetricType(metricType));
     }
 
     @Test
-    void deleteByValidIdShouldReturnTrue () {
-        assertTrue(service.delete(1L));
+    void deleteByValidIdShouldReturnResponseOk () {
+        assertEquals(ResponseEntity.ok(metricTypeDeleted), service.delete(1L));
     }
 
     @Test
-    void deleteByInvalidIdShouldReturnFalse () {
-        assertFalse(service.delete(0L));
+    void deleteByInvalidIdShouldReturnResopnseNotFound () {
+        assertEquals(ResponseEntity.notFound().build(), service.delete(0L));
     }
 }

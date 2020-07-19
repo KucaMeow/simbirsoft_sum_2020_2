@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.stepan.ponomarev.storage_project.model.MetricType;
@@ -17,6 +18,7 @@ import ru.stepan.ponomarev.storage_project.service.MetricTypeCrudServiceImpl;
 
 import java.util.Arrays;
 
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -38,11 +40,16 @@ public class MetricsControllerTest {
     MetricType metricType1;
     MetricType metricType2;
     MetricType metricTypeSaved;
+    MetricType metricTypeDeleted;
 
     @BeforeEach
     public void initTest() {
         metricType1 = MetricType.builder()
                 .id(1L)
+                .metric("metric1")
+                .build();
+        metricTypeDeleted = MetricType.builder()
+                .id(null)
                 .metric("metric1")
                 .build();
         metricType2 = MetricType.builder()
@@ -53,12 +60,12 @@ public class MetricsControllerTest {
                 .id(3L)
                 .metric("metric-test3")
                 .build();
-        given(service.showAllMetricTypes()).willReturn(Arrays.asList(metricType1, metricType2));
-        given(service.showMetricTypeById(1)).willReturn(metricType1);
-        given(service.showMetricTypeById(0)).willReturn(null);
-        given(service.delete(1)).willReturn(true);
-        given(service.delete(0)).willReturn(false);
-        given(service.addOrUpdateMetricType(Mockito.any())).willReturn(metricTypeSaved);
+        given(service.showAllMetricTypes()).willReturn(ResponseEntity.ok(Arrays.asList(metricType1, metricType2)));
+        given(service.showMetricTypeById(1)).willReturn(ResponseEntity.ok(metricType1));
+        given(service.showMetricTypeById(0)).willReturn(ResponseEntity.notFound().build());
+        given(service.delete(1)).willReturn(ResponseEntity.ok(metricTypeDeleted));
+        given(service.delete(0)).willReturn(ResponseEntity.notFound().build());
+        given(service.addOrUpdateMetricType(Mockito.any())).willReturn(ResponseEntity.ok(metricTypeSaved));
     }
 
     @Test
@@ -82,12 +89,10 @@ public class MetricsControllerTest {
     }
 
     @Test
-    void getMetricTypeWithId1ShouldReturnNotFoundAfterDeleteById() throws Exception {
+    void deleteMetricTypeByValidIdShouldReturnObjectWithNullId() throws Exception {
         mockMvc.perform(post("/metric/delete/1"))
-                .andExpect(status().isOk());
-        given(service.showMetricTypeById(1)).willReturn(null);
-        mockMvc.perform(get("/metric/get/1"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", nullValue()));
     }
 
     @Test

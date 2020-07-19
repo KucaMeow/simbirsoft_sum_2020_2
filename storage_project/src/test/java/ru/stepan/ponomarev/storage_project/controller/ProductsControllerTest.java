@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.stepan.ponomarev.storage_project.dto.ProductDto;
@@ -20,6 +21,7 @@ import ru.stepan.ponomarev.storage_project.service.ProductCrudServiceImpl;
 
 import java.util.Arrays;
 
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -46,6 +48,7 @@ public class ProductsControllerTest {
     Product productToSave;
     MetricType metricType;
     ProductType productType;
+    ProductDto productDtoDeleted;
 
     @BeforeEach
     public void initTest() {
@@ -81,15 +84,24 @@ public class ProductsControllerTest {
                 .metricType(metricType)
                 .productType(productType)
                 .build();
-        given(service.showAllProducts()).willReturn(Arrays.asList(dtoMapper.from(product1), dtoMapper.from(product2)));
-        given(service.showAllProductsWithoutMapping()).willReturn(Arrays.asList(product1, product2));
-        given(service.showProductById(1L)).willReturn(dtoMapper.from(product1));
-        given(service.showProductById(0L)).willReturn(null);
-        given(service.showProductByIdWithoutMapping(1L)).willReturn(product1);
-        given(service.showProductByIdWithoutMapping(0L)).willReturn(null);
-        given(service.delete(1L)).willReturn(true);
-        given(service.delete(0L)).willReturn(false);
-        given(service.addOrUpdateProduct(any())).willReturn(dtoMapper.from(productToSave));
+        productDtoDeleted = ProductDto.builder()
+                .name("product1")
+                .quantity(10)
+                .id(null)
+                .cost(10)
+                .metricTypeId(1L)
+                .productTypeId(1L)
+                .build();
+        given(service.showAllProducts()).willReturn(
+                ResponseEntity.ok(Arrays.asList(dtoMapper.from(product1), dtoMapper.from(product2))));
+        given(service.showAllProductsWithoutMapping()).willReturn(ResponseEntity.ok(Arrays.asList(product1, product2)));
+        given(service.showProductById(1L)).willReturn(ResponseEntity.ok(dtoMapper.from(product1)));
+        given(service.showProductById(0L)).willReturn(ResponseEntity.notFound().build());
+        given(service.showProductByIdWithoutMapping(1L)).willReturn(ResponseEntity.ok(product1));
+        given(service.showProductByIdWithoutMapping(0L)).willReturn(ResponseEntity.notFound().build());
+        given(service.delete(1L)).willReturn(ResponseEntity.ok(productDtoDeleted));
+        given(service.delete(0L)).willReturn(ResponseEntity.notFound().build());
+        given(service.addOrUpdateProduct(any())).willReturn(ResponseEntity.ok(dtoMapper.from(productToSave)));
 
     }
 
@@ -134,12 +146,10 @@ public class ProductsControllerTest {
     }
 
     @Test
-    void getProductWithId1ShouldReturnNotFoundAfterDeleteById() throws Exception {
+    void deleteProductByValidIdShouldReturnObjectWithNullId() throws Exception {
         mockMvc.perform(post("/products/delete/1"))
-                .andExpect(status().isOk());
-        given(service.showProductById(1)).willReturn(null);
-        mockMvc.perform(get("/products/get/1"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id", nullValue()));
     }
 
     @Test

@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.stepan.ponomarev.storage_project.model.ProductType;
@@ -17,6 +18,7 @@ import ru.stepan.ponomarev.storage_project.service.ProductTypeCrudService;
 
 import java.util.Arrays;
 
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -38,11 +40,16 @@ public class ProductTypeControllerTest {
     ProductType productType1;
     ProductType productType2;
     ProductType productTypeSaved;
+    ProductType productTypeDeleted;
 
     @BeforeEach
     public void initTest() {
         productType1 = ProductType.builder()
                 .id(1L)
+                .name("product-type1")
+                .build();
+        productTypeDeleted = ProductType.builder()
+                .id(null)
                 .name("product-type1")
                 .build();
         productType2 = ProductType.builder()
@@ -53,12 +60,12 @@ public class ProductTypeControllerTest {
                 .id(3L)
                 .name("product-type-test3")
                 .build();
-        given(service.showAllProductsTypes()).willReturn(Arrays.asList(productType1, productType2));
-        given(service.showProductTypeById(1)).willReturn(productType1);
-        given(service.showProductTypeById(0)).willReturn(null);
-        given(service.delete(1)).willReturn(true);
-        given(service.delete(0)).willReturn(false);
-        given(service.addOrUpdateProductType(Mockito.any())).willReturn(productTypeSaved);
+        given(service.showAllProductsTypes()).willReturn(ResponseEntity.ok(Arrays.asList(productType1, productType2)));
+        given(service.showProductTypeById(1)).willReturn(ResponseEntity.ok(productType1));
+        given(service.showProductTypeById(0)).willReturn(ResponseEntity.notFound().build());
+        given(service.delete(1)).willReturn(ResponseEntity.ok(productTypeDeleted));
+        given(service.delete(0)).willReturn(ResponseEntity.notFound().build());
+        given(service.addOrUpdateProductType(Mockito.any())).willReturn(ResponseEntity.ok(productTypeSaved));
     }
 
     @Test
@@ -82,12 +89,10 @@ public class ProductTypeControllerTest {
     }
 
     @Test
-    void getProductTypeWithId1ShouldReturnNotFoundAfterDeleteById() throws Exception {
+    void deleteProductTypeByValidIdShouldReturnObjectWithNullId() throws Exception {
         mockMvc.perform(post("/product-type/delete/1"))
-                .andExpect(status().isOk());
-        given(service.showProductTypeById(1)).willReturn(null);
-        mockMvc.perform(get("/product-type/get/1"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id", nullValue()));
     }
 
     @Test
