@@ -13,7 +13,6 @@ import ru.stepan.ponomarev.storage_project.service.ProductCrudService;
 @RestController
 public class ProductController {
 
-
     private final ProductCrudService service;
 
     public ProductController(ProductCrudService service) {
