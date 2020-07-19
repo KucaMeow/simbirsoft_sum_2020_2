@@ -10,10 +10,13 @@ import ru.stepan.ponomarev.storage_project.repository.ProductTypeRepository;
 @Service
 public class DtoMapper {
 
-    @Autowired
-    MetricTypeRepository metricTypeRepository;
-    @Autowired
-    ProductTypeRepository productTypeRepository;
+    private final MetricTypeRepository metricTypeRepository;
+    private final ProductTypeRepository productTypeRepository;
+
+    public DtoMapper(MetricTypeRepository metricTypeRepository, ProductTypeRepository productTypeRepository) {
+        this.metricTypeRepository = metricTypeRepository;
+        this.productTypeRepository = productTypeRepository;
+    }
 
     public Product from(ProductDto productDto) {
         return Product.builder()

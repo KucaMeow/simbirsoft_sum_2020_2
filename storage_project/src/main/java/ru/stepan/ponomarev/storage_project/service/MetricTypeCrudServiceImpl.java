@@ -11,12 +11,11 @@ import java.util.Optional;
  * Uses MetricTypeRepository bean
  */
 @Service
-public class MetricTypesCrudServiceImpl implements MetricTypesCrudService {
+public class MetricTypeCrudServiceImpl implements MetricTypeCrudService {
 
-    final
-    MetricTypeRepository metricTypeRepository;
+    private final MetricTypeRepository metricTypeRepository;
 
-    public MetricTypesCrudServiceImpl(MetricTypeRepository metricTypeRepository) {
+    public MetricTypeCrudServiceImpl(MetricTypeRepository metricTypeRepository) {
         this.metricTypeRepository = metricTypeRepository;
     }
 

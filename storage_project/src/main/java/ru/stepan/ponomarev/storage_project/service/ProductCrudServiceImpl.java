@@ -13,14 +13,12 @@ import java.util.stream.Collectors;
  * Uses ProductRepository and DtoMapper beans
  */
 @Service
-public class ProductsCrudServiceImpl implements ProductsCrudService {
+public class ProductCrudServiceImpl implements ProductCrudService {
 
-    final
-    ProductsRepository productsRepository;
-    final
-    DtoMapper dtoMapper;
+    private final ProductsRepository productsRepository;
+    private final DtoMapper dtoMapper;
 
-    public ProductsCrudServiceImpl(ProductsRepository productsRepository, DtoMapper dtoMapper) {
+    public ProductCrudServiceImpl(ProductsRepository productsRepository, DtoMapper dtoMapper) {
         this.productsRepository = productsRepository;
         this.dtoMapper = dtoMapper;
     }

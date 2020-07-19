@@ -4,7 +4,7 @@ import ru.stepan.ponomarev.storage_project.model.MetricType;
 
 import java.util.List;
 
-public interface MetricTypesCrudService {
+public interface MetricTypeCrudService {
     /**
      * Show all metric types from repository
      * @return Response OK with list of MetricType objects

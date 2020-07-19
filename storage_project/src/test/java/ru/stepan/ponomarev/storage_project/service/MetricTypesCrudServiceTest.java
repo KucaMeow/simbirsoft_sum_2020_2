@@ -22,7 +22,7 @@ import static org.mockito.BDDMockito.given;
 public class MetricTypesCrudServiceTest {
 
     @Autowired
-    MetricTypesCrudService service;
+    MetricTypeCrudService service;
 
     @MockBean
     MetricTypeRepository metricTypeRepository;

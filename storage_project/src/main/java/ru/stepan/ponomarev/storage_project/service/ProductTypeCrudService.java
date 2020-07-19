@@ -4,7 +4,7 @@ import ru.stepan.ponomarev.storage_project.model.ProductType;
 
 import java.util.List;
 
-public interface ProductTypesCrudService {
+public interface ProductTypeCrudService {
     /**
      * Show all product types from repository
      * @return Response OK with list of ProductType objects

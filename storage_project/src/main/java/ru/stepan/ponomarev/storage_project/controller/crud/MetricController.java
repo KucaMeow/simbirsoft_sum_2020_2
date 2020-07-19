@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.stepan.ponomarev.storage_project.model.MetricType;
-import ru.stepan.ponomarev.storage_project.service.MetricTypesCrudService;
+import ru.stepan.ponomarev.storage_project.service.MetricTypeCrudService;
 
 import java.util.List;
 
@@ -14,12 +14,11 @@ import java.util.List;
  * Controller for metric types crud operations
  */
 @RestController
-public class MetricsController {
+public class MetricController {
 
-    final
-    MetricTypesCrudService service;
+    private final MetricTypeCrudService service;
 
-    public MetricsController(MetricTypesCrudService service) {
+    public MetricController(MetricTypeCrudService service) {
         this.service = service;
     }
 

@@ -26,7 +26,7 @@ import static org.mockito.BDDMockito.given;
 public class ProductsCrudServiceTest {
 
     @Autowired
-    ProductsCrudService service;
+    ProductCrudService service;
     @Autowired
     DtoMapper dtoMapper;
 

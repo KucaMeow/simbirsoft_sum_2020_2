@@ -23,7 +23,7 @@ import static org.mockito.BDDMockito.given;
 public class ProductTypesCrudServiceTest {
 
     @Autowired
-    ProductTypesCrudService service;
+    ProductTypeCrudService service;
 
     @MockBean
     ProductTypeRepository productTypeRepository;

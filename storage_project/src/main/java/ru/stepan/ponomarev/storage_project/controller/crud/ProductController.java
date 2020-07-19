@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.stepan.ponomarev.storage_project.dto.ProductDto;
 import ru.stepan.ponomarev.storage_project.model.Product;
-import ru.stepan.ponomarev.storage_project.service.ProductsCrudService;
+import ru.stepan.ponomarev.storage_project.service.ProductCrudService;
 
 import java.util.List;
 
@@ -15,13 +15,12 @@ import java.util.List;
  * Controller for product crud operations
  */
 @RestController
-public class ProductsController {
+public class ProductController {
 
 
-    final
-    ProductsCrudService service;
+    private final ProductCrudService service;
 
-    public ProductsController(ProductsCrudService service) {
+    public ProductController(ProductCrudService service) {
         this.service = service;
     }
 

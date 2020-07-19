@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.stepan.ponomarev.storage_project.model.ProductType;
-import ru.stepan.ponomarev.storage_project.service.ProductTypesCrudService;
+import ru.stepan.ponomarev.storage_project.service.ProductTypeCrudService;
 
 import java.util.List;
 
@@ -16,10 +16,9 @@ import java.util.List;
 @RestController
 public class ProductTypeController {
 
-    final
-    ProductTypesCrudService service;
+    private final ProductTypeCrudService service;
 
-    public ProductTypeController(ProductTypesCrudService service) {
+    public ProductTypeController(ProductTypeCrudService service) {
         this.service = service;
     }
 

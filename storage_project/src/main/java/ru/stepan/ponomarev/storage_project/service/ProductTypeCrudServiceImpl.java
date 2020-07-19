@@ -11,12 +11,11 @@ import java.util.Optional;
  * Uses ProductTypeRepository bean
  */
 @Service
-public class ProductTypesCrudServiceImpl implements ProductTypesCrudService {
+public class ProductTypeCrudServiceImpl implements ProductTypeCrudService {
 
-    final
-    ProductTypeRepository productTypeRepository;
+    private final ProductTypeRepository productTypeRepository;
 
-    public ProductTypesCrudServiceImpl(ProductTypeRepository productTypeRepository) {
+    public ProductTypeCrudServiceImpl(ProductTypeRepository productTypeRepository) {
         this.productTypeRepository = productTypeRepository;
     }
 

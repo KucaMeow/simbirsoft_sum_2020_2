@@ -13,7 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.stepan.ponomarev.storage_project.model.ProductType;
-import ru.stepan.ponomarev.storage_project.service.ProductTypesCrudService;
+import ru.stepan.ponomarev.storage_project.service.ProductTypeCrudService;
 
 import java.util.Arrays;
 
@@ -33,7 +33,7 @@ public class ProductTypeControllerTest {
     ObjectMapper objectMapper;
 
     @MockBean
-    ProductTypesCrudService service;
+    ProductTypeCrudService service;
 
     ProductType productType1;
     ProductType productType2;

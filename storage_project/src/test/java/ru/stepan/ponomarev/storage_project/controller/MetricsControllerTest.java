@@ -13,7 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.stepan.ponomarev.storage_project.model.MetricType;
-import ru.stepan.ponomarev.storage_project.service.MetricTypesCrudServiceImpl;
+import ru.stepan.ponomarev.storage_project.service.MetricTypeCrudServiceImpl;
 
 import java.util.Arrays;
 
@@ -33,7 +33,7 @@ public class MetricsControllerTest {
     ObjectMapper objectMapper;
 
     @MockBean
-    MetricTypesCrudServiceImpl service;
+    MetricTypeCrudServiceImpl service;
 
     MetricType metricType1;
     MetricType metricType2;
