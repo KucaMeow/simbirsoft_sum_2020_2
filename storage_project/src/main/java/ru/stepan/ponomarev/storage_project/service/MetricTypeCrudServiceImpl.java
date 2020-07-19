@@ -1,10 +1,10 @@
 package ru.stepan.ponomarev.storage_project.service;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.stepan.ponomarev.storage_project.model.MetricType;
 import ru.stepan.ponomarev.storage_project.repository.MetricTypeRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,8 +23,8 @@ public class MetricTypeCrudServiceImpl implements MetricTypeCrudService {
      * Show all metric types from repository
      * @return Response OK with list of MetricType objects
      */
-    public List<MetricType> showAllMetricTypes() {
-        return metricTypeRepository.findAll();
+    public ResponseEntity showAllMetricTypes() {
+        return ResponseEntity.ok(metricTypeRepository.findAll());
     }
 
     /**
@@ -32,9 +32,9 @@ public class MetricTypeCrudServiceImpl implements MetricTypeCrudService {
      * @param id id of metric type
      * @return Response OK with MetricType object if it's found, or Response NOT_FOUND if it isn't found
      */
-    public MetricType showMetricTypeById(long id) {
+    public ResponseEntity showMetricTypeById(long id) {
         Optional<MetricType> product = metricTypeRepository.findById(id);
-        return product.orElse(null);
+        return product.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     /**
@@ -42,8 +42,8 @@ public class MetricTypeCrudServiceImpl implements MetricTypeCrudService {
      * @param metricType MetricType object from request body (id should be null if want to create new, or not null to update)
      * @return Response OK with updated object
      */
-    public MetricType addOrUpdateMetricType(MetricType metricType) {
-        return metricTypeRepository.save(metricType);
+    public ResponseEntity addOrUpdateMetricType(MetricType metricType) {
+        return ResponseEntity.ok(metricTypeRepository.save(metricType));
     }
 
     /**
@@ -51,12 +51,13 @@ public class MetricTypeCrudServiceImpl implements MetricTypeCrudService {
      * @param id id of MetricType to delete
      * @return String message. Response ok and "Deleted metric with id *id*" or Response NOT_FOUND and "Can't find metric type by id"
      */
-    public boolean delete (long id) {
+    public ResponseEntity delete (long id) {
         Optional<MetricType> metricType = metricTypeRepository.findById(id);
         if(metricType.isPresent()) {
             metricTypeRepository.delete(metricType.get());
-            return true;
+            metricType.get().setId(null);
+            return ResponseEntity.ok(metricType.get());
         }
-        return false;
+        return ResponseEntity.notFound().build();
     }
 }

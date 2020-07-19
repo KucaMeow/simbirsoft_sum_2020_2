@@ -29,8 +29,8 @@ public class ProductTypeController {
     @ApiOperation(value = "Show all product types from repository",
             produces = "Response OK with list of ProductType objects")
     @GetMapping("/product-type/get/all")
-    public ResponseEntity<List<ProductType>> showAllProductsTypes() {
-        return ResponseEntity.ok(service.showAllProductsTypes());
+    public ResponseEntity showAllProductsTypes() {
+        return service.showAllProductsTypes();
     }
 
     /**
@@ -41,12 +41,8 @@ public class ProductTypeController {
     @ApiOperation(value = "Show product types by it's id from repository",
             produces = "Response OK with ProductType object if it's found, Response NOT_FOUND if it isn't found")
     @GetMapping("/product-type/get/{id}")
-    public ResponseEntity<ProductType> showProductTypeById(@PathVariable @ApiParam("id of product types") long id) {
-        ProductType productType = service.showProductTypeById(id);
-        if(productType != null) {
-            return ResponseEntity.ok(productType);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity showProductTypeById(@PathVariable @ApiParam("id of product types") long id) {
+        return service.showProductTypeById(id);
     }
 
     /**
@@ -57,23 +53,20 @@ public class ProductTypeController {
     @ApiOperation(value = "Save new product types from request body",
             produces = "Response OK with updated object")
     @PostMapping("product-type/save")
-    public ResponseEntity<ProductType> addOrUpdateProductType(
+    public ResponseEntity addOrUpdateProductType(
             @RequestBody @ApiParam("ProductType object from request body") ProductType productType) {
-        return ResponseEntity.ok(service.addOrUpdateProductType(productType));
+        return service.addOrUpdateProductType(productType);
     }
 
     /**
      * Delete product types from repository
      * @param id id of ProductType to delete
-     * @return String message. Response ok and "Deleted product types with id *id*" or Response NOT_FOUND and "Can't find product types by id"
+     * @return Response NOT_FOUND if there's no object with this id OR Response OK with deleted object with null id
      */
     @ApiOperation(value = "Delete product types from repository",
-            produces = "Response ok and \"Deleted product types with id *id*\", Response NOT_FOUND and \"Can't find product types by id\"")
+            produces = "Response NOT_FOUND if there's no object with this id, Response OK with deleted object with null id")
     @PostMapping("product-type/delete/{id}")
-    public ResponseEntity<String> delete (@PathVariable @ApiParam("id of ProductType to delete") long id) {
-        if(service.delete(id)) {
-            return ResponseEntity.ok("Deleted product types with id " + id);
-        }
-        return new ResponseEntity<>("Can't find product types type by id", HttpStatus.NOT_FOUND);
+    public ResponseEntity delete (@PathVariable @ApiParam("id of ProductType to delete") long id) {
+        return service.delete(id);
     }
 }
