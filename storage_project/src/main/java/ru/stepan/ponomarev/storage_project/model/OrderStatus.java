@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * Status of order (for example it can be created, or in progress...)
+ */
 @Entity
 @Data
 @AllArgsConstructor
@@ -14,10 +17,17 @@ import javax.persistence.*;
 @Builder
 @Table(name = "order_statuses")
 public class OrderStatus {
+    /**
+     * Id of record of object
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    long id;
+    Long id;
+
+    /**
+     * Status name
+     */
     @Column(name = "order_status")
     String status;
 }

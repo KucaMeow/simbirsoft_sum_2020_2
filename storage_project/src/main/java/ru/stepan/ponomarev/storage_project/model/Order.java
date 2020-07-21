@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * Orders of users purchases
+ */
 @Entity
 @Data
 @AllArgsConstructor
@@ -14,28 +17,32 @@ import javax.persistence.*;
 @Builder
 @Table(name = "orders")
 public class Order {
+    /**
+     * Id of record of object
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    long id;
+    Long id;
 
+    /**
+     * User account - owner of order
+     */
     @ManyToOne
     @JoinColumn(name = "user_id")
     User customer;
 
+    /**
+     * Transaction object for order
+     */
     @OneToOne
     @JoinColumn(name = "transaction_id")
     Transaction transaction;
 
+    /**
+     * Status of order
+     */
     @ManyToOne
     @JoinColumn(name = "status_id")
     private OrderStatus orderStatus;
-
-    public String getOrderStatus() {
-        return orderStatus.status;
-    }
-
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-    }
 }
