@@ -94,11 +94,8 @@ public class ProductsControllerTest {
                 .build();
         given(service.showAllProducts()).willReturn(
                 ResponseEntity.ok(Arrays.asList(dtoMapper.from(product1), dtoMapper.from(product2))));
-        given(service.showAllProductsWithoutMapping()).willReturn(ResponseEntity.ok(Arrays.asList(product1, product2)));
         given(service.showProductById(1L)).willReturn(ResponseEntity.ok(dtoMapper.from(product1)));
         given(service.showProductById(0L)).willReturn(ResponseEntity.notFound().build());
-        given(service.showProductByIdWithoutMapping(1L)).willReturn(ResponseEntity.ok(product1));
-        given(service.showProductByIdWithoutMapping(0L)).willReturn(ResponseEntity.notFound().build());
         given(service.delete(1L)).willReturn(ResponseEntity.ok(productDtoDeleted));
         given(service.delete(0L)).willReturn(ResponseEntity.notFound().build());
         given(service.addOrUpdateProduct(any())).willReturn(ResponseEntity.ok(dtoMapper.from(productToSave)));
@@ -113,13 +110,6 @@ public class ProductsControllerTest {
     }
 
     @Test
-    void getAllProductsWithoutMappingShouldReturnListWithUnmappedProducts() throws Exception {
-        mockMvc.perform(get("/products/get-unmapped/all"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray());
-    }
-
-    @Test
     void getProductWithId1ShouldReturnProductType() throws Exception {
         mockMvc.perform(get("/products/get/1"))
                 .andExpect(status().isOk())
@@ -129,19 +119,6 @@ public class ProductsControllerTest {
     @Test
     void getProductWithId0ShouldReturnNotFound() throws Exception {
         mockMvc.perform(get("/products/get/0"))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void getUnmappedProductWithId1ShouldReturnProductType() throws Exception {
-        mockMvc.perform(get("/products/get-unmapped/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.writeValueAsString(product1)));
-    }
-
-    @Test
-    void getUnmappedProductWithId0ShouldReturnNotFound() throws Exception {
-        mockMvc.perform(get("/products/get-unmapped/0"))
                 .andExpect(status().isNotFound());
     }
 

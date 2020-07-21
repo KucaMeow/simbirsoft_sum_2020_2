@@ -97,11 +97,6 @@ public class ProductsCrudServiceTest {
     }
 
     @Test
-    void showAllProductsWithoutMappingShouldReturnListOfProducts () {
-        assertEquals(ResponseEntity.ok(list), service.showAllProductsWithoutMapping());
-    }
-
-    @Test
     void showProductByValidIdShouldReturnProductDto () {
         assertEquals(ResponseEntity.ok(productDto), service.showProductById(1L));
     }
@@ -112,17 +107,7 @@ public class ProductsCrudServiceTest {
     }
 
     @Test
-    void showProductByValidIdWithoutMappingShouldReturnProduct () {
-        assertEquals(ResponseEntity.ok(product), service.showProductByIdWithoutMapping(1L));
-    }
-
-    @Test
-    void showProductByInvalidIdWithoutMappingShouldReturnNull () {
-        assertEquals(ResponseEntity.notFound().build(), service.showProductByIdWithoutMapping(0L));
-    }
-
-    @Test
-    void addOrUpdateProduct () throws JsonProcessingException {
+    void addOrUpdateProduct () {
         ProductDto product = ProductDto.builder()
                 .cost(10)
                 .metricTypeId(1L)
