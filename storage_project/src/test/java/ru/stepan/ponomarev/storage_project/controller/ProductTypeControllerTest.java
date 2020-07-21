@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.stepan.ponomarev.storage_project.dto.ProductTypeDto;
 import ru.stepan.ponomarev.storage_project.model.ProductType;
 import ru.stepan.ponomarev.storage_project.service.ProductTypeCrudService;
 
@@ -37,26 +38,26 @@ public class ProductTypeControllerTest {
     @MockBean
     ProductTypeCrudService service;
 
-    ProductType productType1;
-    ProductType productType2;
-    ProductType productTypeSaved;
-    ProductType productTypeDeleted;
+    ProductTypeDto productType1;
+    ProductTypeDto productType2;
+    ProductTypeDto productTypeSaved;
+    ProductTypeDto productTypeDeleted;
 
     @BeforeEach
     public void initTest() {
-        productType1 = ProductType.builder()
+        productType1 = ProductTypeDto.builder()
                 .id(1L)
                 .name("product-type1")
                 .build();
-        productTypeDeleted = ProductType.builder()
+        productTypeDeleted = ProductTypeDto.builder()
                 .id(null)
                 .name("product-type1")
                 .build();
-        productType2 = ProductType.builder()
+        productType2 = ProductTypeDto.builder()
                 .id(2L)
                 .name("product-type2")
                 .build();
-        productTypeSaved = ProductType.builder()
+        productTypeSaved = ProductTypeDto.builder()
                 .id(3L)
                 .name("product-type-test3")
                 .build();

@@ -18,10 +18,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Table(name = "product_types")
-@ApiModel(
-        value = "ProductType",
-        description = "Contains info about product type/category/..."
-)
 public class ProductType {
     /**
      * Id of record of object
@@ -29,22 +25,11 @@ public class ProductType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    @ApiModelProperty(
-            value = "ID",
-            required = true,
-            example = "Null, 1001"
-    )
     Long id;
 
     /**
      * Name of product category
      */
     @Column(name = "product_type")
-    @ApiModelProperty(
-            value = "Name",
-            required = true,
-            example = "Product category 1",
-            notes = "Should be with length from 0 to 64"
-    )
     String name;
 }

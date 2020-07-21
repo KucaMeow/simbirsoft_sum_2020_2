@@ -15,6 +15,7 @@ import ru.stepan.ponomarev.storage_project.repository.ProductTypeRepository;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,6 +29,8 @@ public class ProductTypesCrudServiceTest {
     ProductTypeCrudService service;
     @Autowired
     ObjectMapper objectMapper;
+    @Autowired
+    DtoMapper dtoMapper;
 
     @MockBean
     ProductTypeRepository productTypeRepository;
@@ -60,12 +63,13 @@ public class ProductTypesCrudServiceTest {
 
     @Test
     void showAllProductsTypesShouldReturnList () {
-        assertEquals(ResponseEntity.ok(list), service.showAllProductsTypes());
+        assertEquals(ResponseEntity.ok(list.stream().map(dtoMapper::from).collect(Collectors.toList())),
+                service.showAllProductsTypes());
     }
 
     @Test
     void showProductTypeByValidIdShouldReturnProductType () {
-        assertEquals(ResponseEntity.ok(productType), service.showProductTypeById(1));
+        assertEquals(ResponseEntity.ok(dtoMapper.from(productType)), service.showProductTypeById(1));
     }
 
     @Test
@@ -74,16 +78,17 @@ public class ProductTypesCrudServiceTest {
     }
 
     @Test
-    void addOrUpdateProductTypeShouldReturnProductTypeWithId () throws JsonProcessingException {
+    void addOrUpdateProductTypeShouldReturnResponseOk() throws JsonProcessingException {
         ProductType productType = ProductType.builder()
                 .name("test2")
                 .build();
-        assertEquals(ResponseEntity.ok(productTypeSaved), service.addOrUpdateProductType(productType));
+        assertEquals(ResponseEntity.ok(dtoMapper.from(productTypeSaved)),
+                service.addOrUpdateProductType(dtoMapper.from(productType)));
     }
 
     @Test
     void deleteByValidIdShouldReturnResponseOk () {
-        assertEquals(ResponseEntity.ok(productTypeDeleted), service.delete(1L));
+        assertEquals(ResponseEntity.ok(dtoMapper.from(productTypeDeleted)), service.delete(1L));
     }
 
     @Test

@@ -15,6 +15,7 @@ import ru.stepan.ponomarev.storage_project.repository.MetricTypeRepository;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,6 +29,8 @@ public class MetricTypesCrudServiceTest {
     MetricTypeCrudService service;
     @Autowired
     ObjectMapper objectMapper;
+    @Autowired
+    DtoMapper dtoMapper;
 
     @MockBean
     MetricTypeRepository metricTypeRepository;
@@ -60,12 +63,13 @@ public class MetricTypesCrudServiceTest {
 
     @Test
     void showAllMetricTypesShouldReturnList () {
-        assertEquals(ResponseEntity.ok(list), service.showAllMetricTypes());
+        assertEquals(ResponseEntity.ok(list.stream().map(dtoMapper::from).collect(Collectors.toList())),
+                service.showAllMetricTypes());
     }
 
     @Test
     void showMetricTypeByValidIdShouldReturnMetricType () {
-        assertEquals(ResponseEntity.ok(metricType), service.showMetricTypeById(1));
+        assertEquals(ResponseEntity.ok(dtoMapper.from(metricType)), service.showMetricTypeById(1));
     }
 
     @Test
@@ -78,12 +82,13 @@ public class MetricTypesCrudServiceTest {
         MetricType metricType = MetricType.builder()
                 .metric("test2")
                 .build();
-        assertEquals(ResponseEntity.ok(metricTypeSaved), service.addOrUpdateMetricType(metricType));
+        assertEquals(ResponseEntity.ok(dtoMapper.from(metricTypeSaved)),
+                service.addOrUpdateMetricType(dtoMapper.from(metricType)));
     }
 
     @Test
     void deleteByValidIdShouldReturnResponseOk () {
-        assertEquals(ResponseEntity.ok(metricTypeDeleted), service.delete(1L));
+        assertEquals(ResponseEntity.ok(dtoMapper.from(metricTypeDeleted)), service.delete(1L));
     }
 
     @Test

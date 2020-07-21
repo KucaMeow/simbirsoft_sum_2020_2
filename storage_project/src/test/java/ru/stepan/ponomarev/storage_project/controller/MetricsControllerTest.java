@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.stepan.ponomarev.storage_project.dto.MetricTypeDto;
 import ru.stepan.ponomarev.storage_project.model.MetricType;
 import ru.stepan.ponomarev.storage_project.service.MetricTypeCrudServiceImpl;
 
@@ -37,26 +38,26 @@ public class MetricsControllerTest {
     @MockBean
     MetricTypeCrudServiceImpl service;
 
-    MetricType metricType1;
-    MetricType metricType2;
-    MetricType metricTypeSaved;
-    MetricType metricTypeDeleted;
+    MetricTypeDto metricType1;
+    MetricTypeDto metricType2;
+    MetricTypeDto metricTypeSaved;
+    MetricTypeDto metricTypeDeleted;
 
     @BeforeEach
     public void initTest() {
-        metricType1 = MetricType.builder()
+        metricType1 = MetricTypeDto.builder()
                 .id(1L)
                 .metric("metric1")
                 .build();
-        metricTypeDeleted = MetricType.builder()
+        metricTypeDeleted = MetricTypeDto.builder()
                 .id(null)
                 .metric("metric1")
                 .build();
-        metricType2 = MetricType.builder()
+        metricType2 = MetricTypeDto.builder()
                 .id(2L)
                 .metric("metric2")
                 .build();
-        metricTypeSaved = MetricType.builder()
+        metricTypeSaved = MetricTypeDto.builder()
                 .id(3L)
                 .metric("metric-test3")
                 .build();
