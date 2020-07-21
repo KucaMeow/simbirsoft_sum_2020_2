@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.stepan.ponomarev.storage_project.model.ProductType;
 import ru.stepan.ponomarev.storage_project.repository.ProductTypeRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,7 +24,7 @@ public class ProductTypeCrudServiceImpl implements ProductTypeCrudService {
      * Show all product types from repository
      * @return Response OK with list of ProductType objects
      */
-    public ResponseEntity showAllProductsTypes() {
+    public ResponseEntity<List<ProductType>> showAllProductsTypes() {
         return ResponseEntity.ok(productTypeRepository.findAll());
     }
 
@@ -32,7 +33,7 @@ public class ProductTypeCrudServiceImpl implements ProductTypeCrudService {
      * @param id id of product types
      * @return Response OK with ProductType object if it's found, or Response NOT_FOUND if it isn't found
      */
-    public ResponseEntity showProductTypeById(long id) {
+    public ResponseEntity<ProductType> showProductTypeById(long id) {
         Optional<ProductType> productType = productTypeRepository.findById(id);
         return productType.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
@@ -42,7 +43,7 @@ public class ProductTypeCrudServiceImpl implements ProductTypeCrudService {
      * @param productType ProductType object from request body (id should be null if want to create new, or not null to update)
      * @return Response OK with updated object
      */
-    public ResponseEntity addOrUpdateProductType(ProductType productType) {
+    public ResponseEntity<ProductType> addOrUpdateProductType(ProductType productType) {
         return ResponseEntity.ok(productTypeRepository.save(productType));
     }
 
@@ -51,7 +52,7 @@ public class ProductTypeCrudServiceImpl implements ProductTypeCrudService {
      * @param id id of ProductType to delete
      * @return Response NOT_FOUND if there's no object with this id OR Response OK with deleted object with null id
      */
-    public ResponseEntity delete (long id) {
+    public ResponseEntity<ProductType> delete (long id) {
         Optional<ProductType> productType = productTypeRepository.findById(id);
         if(productType.isPresent()) {
             productTypeRepository.delete(productType.get());
