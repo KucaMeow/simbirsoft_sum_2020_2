@@ -2,13 +2,10 @@ package ru.stepan.ponomarev.storage_project.controller.crud;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.stepan.ponomarev.storage_project.model.ProductType;
 import ru.stepan.ponomarev.storage_project.service.ProductTypeCrudService;
-
-import java.util.List;
 
 /**
  * Controller for product type type crud operations
@@ -28,7 +25,7 @@ public class ProductTypeController {
      */
     @ApiOperation(value = "Show all product types from repository",
             produces = "Response OK with list of ProductType objects")
-    @GetMapping("/product-type/get/all")
+    @GetMapping("/product-type/all")
     public ResponseEntity showAllProductsTypes() {
         return service.showAllProductsTypes();
     }
@@ -40,7 +37,7 @@ public class ProductTypeController {
      */
     @ApiOperation(value = "Show product types by it's id from repository",
             produces = "Response OK with ProductType object if it's found, Response NOT_FOUND if it isn't found")
-    @GetMapping("/product-type/get/{id}")
+    @GetMapping("/product-type/{id}")
     public ResponseEntity showProductTypeById(@PathVariable @ApiParam("id of product types") long id) {
         return service.showProductTypeById(id);
     }
@@ -52,7 +49,7 @@ public class ProductTypeController {
      */
     @ApiOperation(value = "Save new product types from request body",
             produces = "Response OK with updated object")
-    @PostMapping("product-type/save")
+    @PutMapping("/product-type")
     public ResponseEntity addOrUpdateProductType(
             @RequestBody @ApiParam("ProductType object from request body") ProductType productType) {
         return service.addOrUpdateProductType(productType);
@@ -65,7 +62,7 @@ public class ProductTypeController {
      */
     @ApiOperation(value = "Delete product types from repository",
             produces = "Response NOT_FOUND if there's no object with this id, Response OK with deleted object with null id")
-    @PostMapping("product-type/delete/{id}")
+    @DeleteMapping("/product-type/{id}")
     public ResponseEntity delete (@PathVariable @ApiParam("id of ProductType to delete") long id) {
         return service.delete(id);
     }

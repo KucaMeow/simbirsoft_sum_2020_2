@@ -25,7 +25,7 @@ public class MetricController {
      */
     @ApiOperation(value = "Show all metric types from repository",
             produces = "Response OK with list of MetricType objects")
-    @GetMapping("/metric/get/all")
+    @GetMapping("/metric/all")
     public ResponseEntity showAllMetricTypes() {
         return service.showAllMetricTypes();
     }
@@ -37,7 +37,7 @@ public class MetricController {
      */
     @ApiOperation(value = "Show metric type by it's id from repository",
             produces = "Response OK with MetricType object if it's found, Response NOT_FOUND if it isn't found")
-    @GetMapping("/metric/get/{id}")
+    @GetMapping("/metric/{id}")
     public ResponseEntity showMetricTypeById(@PathVariable @ApiParam("id of metric type") long id) {
         return service.showMetricTypeById(id);
     }
@@ -49,7 +49,7 @@ public class MetricController {
      */
     @ApiOperation(value = "Save new metric type from request body",
             produces = "Response OK with updated object")
-    @PostMapping("/metric/save")
+    @PutMapping("/metric")
     public ResponseEntity addOrUpdateMetricType(@RequestBody @ApiParam("MetricType object from request body") MetricType metricType) {
         return service.addOrUpdateMetricType(metricType);
     }
@@ -61,7 +61,7 @@ public class MetricController {
      */
     @ApiOperation(value = "Delete metric type from repository",
             produces = "Response NOT_FOUND if there's no object with this id, Response OK with deleted object with null id")
-    @PostMapping("metric/delete/{id}")
+    @DeleteMapping("metric/{id}")
     public ResponseEntity delete (@PathVariable @ApiParam("id of MetricType to delete") long id) {
         return service.delete(id);
     }
