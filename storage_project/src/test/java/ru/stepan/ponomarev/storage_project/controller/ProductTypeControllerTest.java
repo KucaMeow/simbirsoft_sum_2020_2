@@ -21,8 +21,7 @@ import java.util.Arrays;
 
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -71,34 +70,34 @@ public class ProductTypeControllerTest {
 
     @Test
     void getAllProductTypesShouldReturnListWithProductTypes() throws Exception {
-        mockMvc.perform(get("/product-type/get/all"))
+        mockMvc.perform(get("/product-type"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
     }
 
     @Test
     void getProductTypeWithId1ShouldReturnProductType() throws Exception {
-        mockMvc.perform(get("/product-type/get/1"))
+        mockMvc.perform(get("/product-type/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(productType1)));
     }
 
     @Test
     void getProductTypeWithId0ShouldReturnNotFound() throws Exception {
-        mockMvc.perform(get("/product-type/get/0"))
+        mockMvc.perform(get("/product-type/0"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void deleteProductTypeByValidIdShouldReturnObjectWithNullId() throws Exception {
-        mockMvc.perform(post("/product-type/delete/1"))
+        mockMvc.perform(delete("/product-type/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id", nullValue()));
     }
 
     @Test
     void deleteProductTypeByInvalidIdShouldReturnNotFound() throws Exception {
-        mockMvc.perform(post("/product-type/delete/0"))
+        mockMvc.perform(delete("/product-type/0"))
                 .andExpect(status().isNotFound());
     }
 
@@ -107,7 +106,7 @@ public class ProductTypeControllerTest {
         ProductType productType = ProductType.builder()
                 .name("product-type-test3")
                 .build();
-        mockMvc.perform(post("/product-type/save")
+        mockMvc.perform(put("/product-type")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(productType)))
                 .andExpect(status().isOk())

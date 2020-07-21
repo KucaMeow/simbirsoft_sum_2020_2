@@ -27,7 +27,7 @@ public class ProductController {
      */
     @ApiOperation(value = "Show all products from repository",
             produces = "Response OK with list of ProductDtos objects")
-    @GetMapping("/product/all")
+    @GetMapping("/product")
     public ResponseEntity<List<ProductDto>> showAllProducts() {
         return service.showAllProducts();
     }

@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.stepan.ponomarev.storage_project.model.MetricType;
+import ru.stepan.ponomarev.storage_project.dto.MetricTypeDto;
 import ru.stepan.ponomarev.storage_project.service.MetricTypeCrudService;
 
 import java.util.List;
@@ -27,8 +27,8 @@ public class MetricController {
      */
     @ApiOperation(value = "Show all metric types from repository",
             produces = "Response OK with list of MetricType objects")
-    @GetMapping("/metric/all")
-    public ResponseEntity<List<MetricType>> showAllMetricTypes() {
+    @GetMapping("/metric")
+    public ResponseEntity<List<MetricTypeDto>> showAllMetricTypes() {
         return service.showAllMetricTypes();
     }
 
@@ -40,7 +40,7 @@ public class MetricController {
     @ApiOperation(value = "Show metric type by it's id from repository",
             produces = "Response OK with MetricType object if it's found, Response NOT_FOUND if it isn't found")
     @GetMapping("/metric/{id}")
-    public ResponseEntity<MetricType> showMetricTypeById(@PathVariable @ApiParam("id of metric type") long id) {
+    public ResponseEntity<MetricTypeDto> showMetricTypeById(@PathVariable @ApiParam("id of metric type") long id) {
         return service.showMetricTypeById(id);
     }
 
@@ -52,7 +52,8 @@ public class MetricController {
     @ApiOperation(value = "Save new metric type from request body",
             produces = "Response OK with updated object")
     @PutMapping("/metric")
-    public ResponseEntity<MetricType> addOrUpdateMetricType(@RequestBody @ApiParam("MetricType object from request body") MetricType metricType) {
+    public ResponseEntity<MetricTypeDto> addOrUpdateMetricType(
+            @RequestBody @ApiParam("MetricType object from request body") MetricTypeDto metricType) {
         return service.addOrUpdateMetricType(metricType);
     }
 
@@ -64,7 +65,7 @@ public class MetricController {
     @ApiOperation(value = "Delete metric type from repository",
             produces = "Response NOT_FOUND if there's no object with this id, Response OK with deleted object with null id")
     @DeleteMapping("metric/{id}")
-    public ResponseEntity<MetricType> delete (@PathVariable @ApiParam("id of MetricType to delete") long id) {
+    public ResponseEntity<MetricTypeDto> delete (@PathVariable @ApiParam("id of MetricType to delete") long id) {
         return service.delete(id);
     }
 }

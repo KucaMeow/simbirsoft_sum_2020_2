@@ -21,8 +21,7 @@ import java.util.Arrays;
 
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -71,34 +70,34 @@ public class MetricsControllerTest {
 
     @Test
     void getAllMetricTypesShouldReturnListWithMetrics() throws Exception {
-        mockMvc.perform(get("/metric/get/all"))
+        mockMvc.perform(get("/metric"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
     }
 
     @Test
     void getMetricTypeWithId1ShouldReturnMetric() throws Exception {
-        mockMvc.perform(get("/metric/get/1"))
+        mockMvc.perform(get("/metric/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(metricType1)));
     }
 
     @Test
     void getMetricTypeWithId0ShouldReturnNotFound() throws Exception {
-        mockMvc.perform(get("/metric/get/0"))
+        mockMvc.perform(get("/metric/0"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void deleteMetricTypeByValidIdShouldReturnObjectWithNullId() throws Exception {
-        mockMvc.perform(post("/metric/delete/1"))
+        mockMvc.perform(delete("/metric/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", nullValue()));
     }
 
     @Test
     void deleteMetricTypeByInvalidIdShouldReturnNotFound() throws Exception {
-        mockMvc.perform(post("/metric/delete/0"))
+        mockMvc.perform(delete("/metric/0"))
                 .andExpect(status().isNotFound());
     }
 
@@ -107,7 +106,7 @@ public class MetricsControllerTest {
         MetricType metricType = MetricType.builder()
                 .metric("metric-test3")
                 .build();
-        mockMvc.perform(post("/metric/save")
+        mockMvc.perform(put("/metric")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(metricType)))
                 .andExpect(status().isOk())
