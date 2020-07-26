@@ -3,6 +3,7 @@ package ru.stepan.ponomarev.storage_project.controller.crud;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.stepan.ponomarev.storage_project.dto.MetricTypeDto;
 import ru.stepan.ponomarev.storage_project.service.MetricTypeCrudService;
@@ -28,6 +29,7 @@ public class MetricController {
     @ApiOperation(value = "Show all metric types from repository",
             produces = "Response OK with list of MetricType objects")
     @GetMapping("/metric")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<MetricTypeDto>> showAllMetricTypes() {
         return service.showAllMetricTypes();
     }
@@ -40,6 +42,7 @@ public class MetricController {
     @ApiOperation(value = "Show metric type by it's id from repository",
             produces = "Response OK with MetricType object if it's found, Response NOT_FOUND if it isn't found")
     @GetMapping("/metric/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<MetricTypeDto> showMetricTypeById(@PathVariable @ApiParam("id of metric type") long id) {
         return service.showMetricTypeById(id);
     }
@@ -52,6 +55,7 @@ public class MetricController {
     @ApiOperation(value = "Save new metric type from request body",
             produces = "Response OK with updated object")
     @PutMapping("/metric")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<MetricTypeDto> addOrUpdateMetricType(
             @RequestBody @ApiParam("MetricType object from request body") MetricTypeDto metricType) {
         return service.addOrUpdateMetricType(metricType);
@@ -65,6 +69,7 @@ public class MetricController {
     @ApiOperation(value = "Delete metric type from repository",
             produces = "Response NOT_FOUND if there's no object with this id, Response OK with deleted object with null id")
     @DeleteMapping("metric/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<MetricTypeDto> delete (@PathVariable @ApiParam("id of MetricType to delete") long id) {
         return service.delete(id);
     }

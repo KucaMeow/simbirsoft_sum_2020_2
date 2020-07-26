@@ -127,4 +127,10 @@
         </createTable>
 
     </changeSet>
+
+    <changeSet id="6" author="Stepan">
+        <addColumn tableName="users">
+            <column name="role" type="varchar(64)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
