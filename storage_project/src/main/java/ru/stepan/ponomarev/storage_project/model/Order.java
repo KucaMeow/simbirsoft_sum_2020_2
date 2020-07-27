@@ -23,21 +23,21 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     /**
      * User account - owner of order
      */
     @ManyToOne
     @JoinColumn(name = "user_id")
-    User customer;
+    private User customer;
 
     /**
      * Transaction object for order
      */
     @OneToOne
     @JoinColumn(name = "transaction_id")
-    Transaction transaction;
+    private Transaction transaction;
 
     /**
      * Status of order

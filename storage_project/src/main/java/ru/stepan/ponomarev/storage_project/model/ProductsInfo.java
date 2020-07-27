@@ -23,31 +23,31 @@ public class ProductsInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "id")
-    Long id;
+    private Long id;
 
     /**
      * Product. Sets the product which is recorded in this package
      */
     @ManyToOne
     @JoinColumn(name = "product_id")
-    Product product;
+    private Product product;
 
     /**
      * Quantity of units of product (not quantity of one unit!)
      */
     @Column(name = "quantity")
-    int quantity;
+    private int quantity;
 
     /**
      * Shop where this package of products is placed. Can be NULL if it's in storage
      */
     @ManyToOne
     @JoinColumn(name = "shop_id")
-    Shop shop;
+    private Shop shop;
 
     /**
      * Shows if this package is at storage or not. IT SHOULD BE TRUE IF IN STORAGE AND FALSE ONLY IF IN THE SHOP
      */
     @Column(name = "is_at_storage")
-    boolean atStorage;
+    private boolean atStorage;
 }

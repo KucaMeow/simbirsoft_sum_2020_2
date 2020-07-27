@@ -24,23 +24,23 @@ public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     /**
      * Name of branch
      */
     @Column(name = "shop_name")
-    String name;
+    private String name;
 
     /**
      * Address of branch
      */
     @Column(name = "address")
-    String address;
+    private String address;
 
     /**
      * List of products
      */
     @OneToMany(mappedBy = "shop")
-    List<ProductsInfo> products;
+    private List<ProductsInfo> products;
 }

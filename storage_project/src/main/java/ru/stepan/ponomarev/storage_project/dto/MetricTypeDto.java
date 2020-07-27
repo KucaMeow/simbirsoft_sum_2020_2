@@ -29,7 +29,7 @@ public class MetricTypeDto {
             required = true,
             example = "Null, 1001"
     )
-    Long id;
+    private Long id;
     /**
      * Metric type name shown to user
      */
@@ -39,5 +39,5 @@ public class MetricTypeDto {
             example = "kilogram",
             notes = "Should be with length from 0 to 64"
     )
-    String metric;
+    private String metric;
 }

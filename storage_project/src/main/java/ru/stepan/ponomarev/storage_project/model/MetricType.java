@@ -23,10 +23,10 @@ public class MetricType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
     /**
      * Metric type name shown to user
      */
     @Column(name = "metric_type")
-    String metric;
+    private String metric;
 }

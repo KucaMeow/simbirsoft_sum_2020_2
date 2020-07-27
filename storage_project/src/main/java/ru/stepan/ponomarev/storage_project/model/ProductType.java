@@ -25,11 +25,11 @@ public class ProductType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     /**
      * Name of product category
      */
     @Column(name = "product_type")
-    String name;
+    private String name;
 }

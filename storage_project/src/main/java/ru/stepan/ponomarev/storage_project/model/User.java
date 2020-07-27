@@ -24,22 +24,28 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     @Column(name = "username")
-    String username;
+    private String username;
     @Column(name = "password_hash")
-    String hashedPassword;
+    private String hashedPassword;
 
     /**
      * Current user balance
      */
     @Column(name = "balance")
-    double balance;
+    private double balance;
 
     /**
      * All saver orders of user
      */
     @OneToMany(mappedBy = "customer")
-    List<Order> orders;
+    private List<Order> orders;
+
+    /**
+     * Role of user
+     */
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }
