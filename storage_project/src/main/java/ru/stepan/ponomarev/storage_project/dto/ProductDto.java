@@ -24,7 +24,7 @@ public class ProductDto {
             required = true,
             example = "Null, 1001"
     )
-    Long id;
+    private Long id;
 
     @ApiModelProperty(
             value = "Name",
@@ -32,7 +32,7 @@ public class ProductDto {
             example = "Product name 1",
             notes = "Should be with length from 0 to 255"
     )
-    String name;
+    private String name;
 
     @ApiModelProperty(
             value = "Quantity",
@@ -40,7 +40,7 @@ public class ProductDto {
             example = "100.1",
             notes = "Quantity of product in current single package"
     )
-    double quantity;
+    private double quantity;
 
     @ApiModelProperty(
             value = "ProductType ID",
@@ -48,7 +48,7 @@ public class ProductDto {
             example = "1001",
             notes = "ID of ProductType object to map Product type to current Product"
     )
-    long productTypeId;
+    private long productTypeId;
 
     @ApiModelProperty(
             value = "MetricType ID",
@@ -56,7 +56,7 @@ public class ProductDto {
             example = "1001",
             notes = "ID of MetricType object to map Metric type to current Product"
     )
-    long metricTypeId;
+    private long metricTypeId;
 
     @ApiModelProperty(
             value = "Cost",
@@ -64,5 +64,5 @@ public class ProductDto {
             example = "100.1",
             notes = "Cost of product in current single package"
     )
-    double cost;
+    private double cost;
 }

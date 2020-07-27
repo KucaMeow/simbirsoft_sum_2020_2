@@ -25,24 +25,24 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     /**
      * Date of transaction creation
      */
     @Column(name = "timestamp")
-    Date date;
+    private Date date;
 
     /**
      * List of products infos. They describes packages of products, which was bought and store, where it has bought
      */
     @OneToMany(mappedBy = "transaction")
-    List<TransactionProductsInfo> productList;
+    private List<TransactionProductsInfo> productList;
 
     /**
      * Snapshot of sum of products costs at the time, transaction created
      */
     @Column(name = "cost_sum")
-    double cost_sum;
+    private double cost_sum;
 
 }

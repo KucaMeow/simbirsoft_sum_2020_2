@@ -25,26 +25,26 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     /**
      * Name of product
      */
     @Column(name = "name")
-    String name;
+    private String name;
 
     /**
      * Quantity for one item (f.e. 1 of kilograms or 0,5 of liters)
      */
     @Column(name = "quantity")
-    double quantity;
+    private double quantity;
 
     /**
      * Type of product to differ products in groups
      */
     @ManyToOne
     @JoinColumn(name = "product_type_id")
-    ProductType productType;
+    private ProductType productType;
 
     /**
      * Type of quantity metric to be displayed (f.e. kg or l for 1 of kilograms or 0,5 of liters structure)
@@ -57,5 +57,5 @@ public class Product {
      * Current cost of product in rubbles (or other currency, depends on location and so on)
      */
     @Column(name = "cost")
-    double cost;
+    private double cost;
 }

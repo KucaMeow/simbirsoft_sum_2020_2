@@ -13,11 +13,11 @@ public class SignUpDto {
             required = true,
             example = "SomeUserName"
     )
-    String username;
+    private String username;
     @ApiModelProperty(
             name = "Password",
             required = true,
             example = "SomePassWord123"
     )
-    String password;
+    private String password;
 }

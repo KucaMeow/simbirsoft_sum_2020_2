@@ -29,7 +29,7 @@ public class ProductTypeDto {
             required = true,
             example = "Null, 1001"
     )
-    Long id;
+    private Long id;
 
     /**
      * Name of product category
@@ -40,5 +40,5 @@ public class ProductTypeDto {
             example = "Product category 1",
             notes = "Should be with length from 0 to 64"
     )
-    String name;
+    private String name;
 }

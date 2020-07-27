@@ -14,5 +14,5 @@ public class TokenDto {
             name = "Token",
             notes = "JWT token, generated on server for authentication"
     )
-    String token;
+    private String token;
 }

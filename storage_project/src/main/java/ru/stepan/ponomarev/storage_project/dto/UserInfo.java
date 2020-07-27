@@ -14,9 +14,9 @@ public class UserInfo {
     /**
      * Username of user
      */
-    String username;
+    private String username;
     /**
      * Balance of user
      */
-    double balance;
+    private double balance;
 }

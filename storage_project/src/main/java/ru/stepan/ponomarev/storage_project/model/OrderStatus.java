@@ -23,11 +23,11 @@ public class OrderStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     /**
      * Status name
      */
     @Column(name = "order_status")
-    String status;
+    private String status;
 }
