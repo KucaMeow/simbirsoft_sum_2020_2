@@ -1,25 +1,25 @@
 package ru.stepan.ponomarev.storage_project.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.stepan.ponomarev.storage_project.dto.MetricTypeDto;
-import ru.stepan.ponomarev.storage_project.dto.ProductDto;
-import ru.stepan.ponomarev.storage_project.dto.ProductTypeDto;
-import ru.stepan.ponomarev.storage_project.model.MetricType;
-import ru.stepan.ponomarev.storage_project.model.Product;
-import ru.stepan.ponomarev.storage_project.model.ProductType;
-import ru.stepan.ponomarev.storage_project.repository.MetricTypeRepository;
-import ru.stepan.ponomarev.storage_project.repository.ProductTypeRepository;
+import ru.stepan.ponomarev.storage_project.dto.*;
+import ru.stepan.ponomarev.storage_project.model.*;
+import ru.stepan.ponomarev.storage_project.repository.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DtoMapper {
 
     private final MetricTypeRepository metricTypeRepository;
     private final ProductTypeRepository productTypeRepository;
+    private final TransactionRepository transactionRepository;
 
-    public DtoMapper(MetricTypeRepository metricTypeRepository, ProductTypeRepository productTypeRepository) {
+
+    public DtoMapper(MetricTypeRepository metricTypeRepository, ProductTypeRepository productTypeRepository, InvoiceRepository invoiceRepository, TransactionRepository transactionRepository, WriteOffRepository writeOffRepository) {
         this.metricTypeRepository = metricTypeRepository;
         this.productTypeRepository = productTypeRepository;
+        this.transactionRepository = transactionRepository;
     }
 
     public Product from(ProductDto productDto) {
@@ -69,6 +69,48 @@ public class DtoMapper {
         return ProductTypeDto.builder()
                 .name(productType.getName())
                 .id(productType.getId())
+                .build();
+    }
+
+    public Invoice from(InvoiceDto invoiceDto) {
+        return Invoice.builder()
+                .id(invoiceDto.getId())
+                .isConfirmed(invoiceDto.isConfirmed())
+                .transaction(transactionRepository.findById(invoiceDto.getTransactionId()).orElse(null))
+                .build();
+    }
+
+    public InvoiceDto from(Invoice invoice) {
+        List<Long> ids = new ArrayList<>();
+        for(TransactionProductsInfo t : invoice.getTransaction().getProductList()) {
+            ids.add(t.getProduct().getId());
+        }
+        return InvoiceDto.builder()
+                .id(invoice.getId())
+                .isConfirmed(invoice.isConfirmed())
+                .productInfoIds(ids)
+                .transactionId(invoice.getTransaction().getId())
+                .build();
+    }
+
+    public WriteOff from(WriteOffDto writeOffDto) {
+        return WriteOff.builder()
+                .id(writeOffDto.getId())
+                .isConfirmed(writeOffDto.isConfirmed())
+                .transaction(transactionRepository.findById(writeOffDto.getTransactionId()).orElse(null))
+                .build();
+    }
+
+    public WriteOffDto from(WriteOff writeOff) {
+        List<Long> ids = new ArrayList<>();
+        for(TransactionProductsInfo t : writeOff.getTransaction().getProductList()) {
+            ids.add(t.getProduct().getId());
+        }
+        return WriteOffDto.builder()
+                .id(writeOff.getId())
+                .isConfirmed(writeOff.isConfirmed())
+                .productInfoIds(ids)
+                .transactionId(writeOff.getTransaction().getId())
                 .build();
     }
 }
