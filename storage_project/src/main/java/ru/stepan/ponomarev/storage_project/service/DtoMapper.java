@@ -14,12 +14,15 @@ public class DtoMapper {
     private final MetricTypeRepository metricTypeRepository;
     private final ProductTypeRepository productTypeRepository;
     private final TransactionRepository transactionRepository;
+    private final ShopRepository shopRepository;
+    private final ProductsRepository productsRepository;
 
-
-    public DtoMapper(MetricTypeRepository metricTypeRepository, ProductTypeRepository productTypeRepository, InvoiceRepository invoiceRepository, TransactionRepository transactionRepository, WriteOffRepository writeOffRepository) {
+    public DtoMapper(MetricTypeRepository metricTypeRepository, ProductTypeRepository productTypeRepository, InvoiceRepository invoiceRepository, TransactionRepository transactionRepository, WriteOffRepository writeOffRepository, ShopRepository shopRepository, ProductsRepository productsRepository) {
         this.metricTypeRepository = metricTypeRepository;
         this.productTypeRepository = productTypeRepository;
         this.transactionRepository = transactionRepository;
+        this.shopRepository = shopRepository;
+        this.productsRepository = productsRepository;
     }
 
     public Product from(ProductDto productDto) {
@@ -81,14 +84,14 @@ public class DtoMapper {
     }
 
     public InvoiceDto from(Invoice invoice) {
-        List<Long> ids = new ArrayList<>();
+        List<ProductInfoDto> dtos = new ArrayList<>();
         for(TransactionProductsInfo t : invoice.getTransaction().getProductList()) {
-            ids.add(t.getProduct().getId());
+            dtos.add(from(t));
         }
         return InvoiceDto.builder()
                 .id(invoice.getId())
                 .isConfirmed(invoice.isConfirmed())
-                .productInfoIds(ids)
+                .productInfoDtos(dtos)
                 .transactionId(invoice.getTransaction().getId())
                 .build();
     }
@@ -102,15 +105,45 @@ public class DtoMapper {
     }
 
     public WriteOffDto from(WriteOff writeOff) {
-        List<Long> ids = new ArrayList<>();
+        List<ProductInfoDto> dtos = new ArrayList<>();
         for(TransactionProductsInfo t : writeOff.getTransaction().getProductList()) {
-            ids.add(t.getProduct().getId());
+            dtos.add(from(t));
         }
         return WriteOffDto.builder()
                 .id(writeOff.getId())
                 .isConfirmed(writeOff.isConfirmed())
-                .productInfoIds(ids)
+                .productInfoDtos(dtos)
                 .transactionId(writeOff.getTransaction().getId())
+                .build();
+    }
+
+    public ProductInfoDto from(ProductsInfo productsInfo) {
+        return ProductInfoDto.builder()
+                .id(productsInfo.getId())
+                .atStorage(productsInfo.isAtStorage())
+                .productId(productsInfo.getProduct().getId())
+                .quantity(productsInfo.getQuantity())
+                .shopId(productsInfo.getShop().getId())
+                .build();
+    }
+
+    public ProductInfoDto from(TransactionProductsInfo productsInfo) {
+        return ProductInfoDto.builder()
+                .id(productsInfo.getId())
+                .atStorage(productsInfo.isAtStorage())
+                .productId(productsInfo.getProduct().getId())
+                .quantity(productsInfo.getQuantity())
+                .shopId(productsInfo.getShop().getId())
+                .build();
+    }
+
+    public ProductsInfo from(ProductInfoDto productsInfoDto) {
+        return ProductsInfo.builder()
+                .shop(shopRepository.findById(productsInfoDto.getShopId()).orElse(null))
+                .quantity(productsInfoDto.getQuantity())
+                .product(productsRepository.findById(productsInfoDto.getProductId()).orElse(null))
+                .atStorage(productsInfoDto.isAtStorage())
+                .id(productsInfoDto.getId())
                 .build();
     }
 }
