@@ -9,7 +9,7 @@ import ru.stepan.ponomarev.storage_project.dto.SignUpDto;
 import ru.stepan.ponomarev.storage_project.dto.TokenDto;
 import ru.stepan.ponomarev.storage_project.model.Role;
 import ru.stepan.ponomarev.storage_project.model.User;
-import ru.stepan.ponomarev.storage_project.repository.UsersRepository;
+import ru.stepan.ponomarev.storage_project.repository.UserRepository;
 
 import java.util.ArrayList;
 
@@ -19,14 +19,14 @@ import java.util.ArrayList;
 @Service
 public class SignUpServiceImpl implements SignUpService {
 
-    final private UsersRepository usersRepository;
+    final private UserRepository userRepository;
     final private PasswordEncoder passwordEncoder;
 
     @Value("${jwt.secret}")
     private String secret;
 
-    public SignUpServiceImpl(UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
-        this.usersRepository = usersRepository;
+    public SignUpServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -44,7 +44,7 @@ public class SignUpServiceImpl implements SignUpService {
                 .username(signUpDto.getUsername())
                 .role(Role.ROLE_USER)
                 .build();
-        User user = usersRepository.save(userToSave);
+        User user = userRepository.save(userToSave);
         String token = Jwts.builder()
                 .setSubject(user.getId().toString())
                 .claim("name", user.getUsername())

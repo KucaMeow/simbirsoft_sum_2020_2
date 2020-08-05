@@ -19,15 +19,15 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final DtoMapper dtoMapper;
     private final InvoiceRepository invoiceRepository;
     private final TransactionRepository transactionRepository;
-    private final ProductsRepository productsRepository;
+    private final ProductRepository productRepository;
     private final ShopRepository shopRepository;
     private final ProductsInfoRepository productsInfoRepository;
 
-    public InvoiceServiceImpl(DtoMapper dtoMapper, TransactionRepository transactionRepository, InvoiceRepository invoiceRepository, ProductsRepository productsRepository, ShopRepository shopRepository, ProductsInfoRepository productsInfoRepository) {
+    public InvoiceServiceImpl(DtoMapper dtoMapper, TransactionRepository transactionRepository, InvoiceRepository invoiceRepository, ProductRepository productRepository, ShopRepository shopRepository, ProductsInfoRepository productsInfoRepository) {
         this.dtoMapper = dtoMapper;
         this.invoiceRepository = invoiceRepository;
         this.transactionRepository = transactionRepository;
-        this.productsRepository = productsRepository;
+        this.productRepository = productRepository;
         this.shopRepository = shopRepository;
         this.productsInfoRepository = productsInfoRepository;
     }
@@ -53,7 +53,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             List<TransactionProductsInfo> productsInfos = new ArrayList<>();
 
             for(ProductInfoDto dto : invoiceDto.getProductInfoDtos()) {
-                Optional<Product> product = productsRepository.findById(dto.getProductId());
+                Optional<Product> product = productRepository.findById(dto.getProductId());
                 if(product.isPresent()) {
                     productsInfos.add(TransactionProductsInfo.builder()
                             .atStorage(invoiceDto.getShopId() == null)

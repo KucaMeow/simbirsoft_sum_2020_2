@@ -49,10 +49,10 @@ public class WriteOffController {
     /**
      * Save or Update invoice from WriteOffDto
      * @param writeOffDto WriteOffDto object with info to save or update
-     * @return WriteOffDto with new id and it's transaction id if save, or updated WriteOffDto of updated Invoice
+     * @return WriteOffDto with new id and it's transaction id if save, or updated WriteOffDto of updated WriteOff
      */
     @ApiOperation(value = "Save or Update invoice from WriteOffDto",
-            produces = "WriteOffDto with new id and it's transaction id if save, or updated WriteOffDto of updated Invoice")
+            produces = "WriteOffDto with new id and it's transaction id if save, or updated WriteOffDto of updated WriteOff")
     @PutMapping("/write-off")
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public ResponseEntity<WriteOffDto> saveOrUpdateWriteOff(@RequestBody WriteOffDto writeOffDto) {

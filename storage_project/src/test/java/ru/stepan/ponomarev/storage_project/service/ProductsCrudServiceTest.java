@@ -1,6 +1,5 @@
 package ru.stepan.ponomarev.storage_project.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +13,7 @@ import ru.stepan.ponomarev.storage_project.dto.ProductDto;
 import ru.stepan.ponomarev.storage_project.model.MetricType;
 import ru.stepan.ponomarev.storage_project.model.Product;
 import ru.stepan.ponomarev.storage_project.model.ProductType;
-import ru.stepan.ponomarev.storage_project.repository.ProductsRepository;
+import ru.stepan.ponomarev.storage_project.repository.ProductRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -36,7 +35,7 @@ public class ProductsCrudServiceTest {
     ObjectMapper objectMapper;
 
     @MockBean
-    ProductsRepository productsRepository;
+    ProductRepository productRepository;
 
     List<Product> list;
     List<ProductDto> listDtos;
@@ -85,10 +84,10 @@ public class ProductsCrudServiceTest {
                 .build();
         list = Collections.singletonList(product);
         listDtos = Collections.singletonList(productDto);
-        given(productsRepository.findAll()).willReturn(list);
-        given(productsRepository.findById(1L)).willReturn(Optional.of(product));
-        given(productsRepository.findById(0L)).willReturn(Optional.empty());
-        given(productsRepository.save(any())).willReturn(productSaved);
+        given(productRepository.findAll()).willReturn(list);
+        given(productRepository.findById(1L)).willReturn(Optional.of(product));
+        given(productRepository.findById(0L)).willReturn(Optional.empty());
+        given(productRepository.save(any())).willReturn(productSaved);
     }
 
     @Test

@@ -15,14 +15,18 @@ public class DtoMapper {
     private final ProductTypeRepository productTypeRepository;
     private final TransactionRepository transactionRepository;
     private final ShopRepository shopRepository;
-    private final ProductsRepository productsRepository;
+    private final ProductRepository productRepository;
+    private final UserRepository userRepository;
+    private final OrderStatusRepository orderStatusRepository;
 
-    public DtoMapper(MetricTypeRepository metricTypeRepository, ProductTypeRepository productTypeRepository, InvoiceRepository invoiceRepository, TransactionRepository transactionRepository, WriteOffRepository writeOffRepository, ShopRepository shopRepository, ProductsRepository productsRepository) {
+    public DtoMapper(MetricTypeRepository metricTypeRepository, ProductTypeRepository productTypeRepository, InvoiceRepository invoiceRepository, TransactionRepository transactionRepository, WriteOffRepository writeOffRepository, ShopRepository shopRepository, ProductRepository productRepository, UserRepository userRepository, OrderStatusRepository orderStatusRepository) {
         this.metricTypeRepository = metricTypeRepository;
         this.productTypeRepository = productTypeRepository;
         this.transactionRepository = transactionRepository;
         this.shopRepository = shopRepository;
-        this.productsRepository = productsRepository;
+        this.productRepository = productRepository;
+        this.userRepository = userRepository;
+        this.orderStatusRepository = orderStatusRepository;
     }
 
     public Product from(ProductDto productDto) {
@@ -141,9 +145,32 @@ public class DtoMapper {
         return ProductsInfo.builder()
                 .shop(shopRepository.findById(productsInfoDto.getShopId()).orElse(null))
                 .quantity(productsInfoDto.getQuantity())
-                .product(productsRepository.findById(productsInfoDto.getProductId()).orElse(null))
+                .product(productRepository.findById(productsInfoDto.getProductId()).orElse(null))
                 .atStorage(productsInfoDto.isAtStorage())
                 .id(productsInfoDto.getId())
+                .build();
+    }
+
+    public Order from(OrderDto orderDto) {
+        return Order.builder()
+                .customer(userRepository.getOne(orderDto.getUserId()))
+                .id(orderDto.getId())
+                .orderStatus(orderStatusRepository.getOne(orderDto.getStatusId()))
+                .transaction(transactionRepository.getOne(orderDto.getTransactionId()))
+                .build();
+    }
+
+    public OrderDto from(Order order) {
+        List<ProductInfoDto> dtos = new ArrayList<>();
+        for(TransactionProductsInfo t : order.getTransaction().getProductList()) {
+            dtos.add(from(t));
+        }
+        return OrderDto.builder()
+                .id(order.getId())
+                .productInfoDtos(dtos)
+                .statusId(order.getOrderStatus().getId())
+                .transactionId(order.getTransaction().getId())
+                .userId(order.getCustomer().getId())
                 .build();
     }
 }

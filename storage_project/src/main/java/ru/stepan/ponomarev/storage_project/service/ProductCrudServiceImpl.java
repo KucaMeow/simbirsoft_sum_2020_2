@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.stepan.ponomarev.storage_project.dto.ProductDto;
 import ru.stepan.ponomarev.storage_project.model.Product;
-import ru.stepan.ponomarev.storage_project.repository.ProductsRepository;
+import ru.stepan.ponomarev.storage_project.repository.ProductRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 @Service
 public class ProductCrudServiceImpl implements ProductCrudService {
 
-    private final ProductsRepository productsRepository;
+    private final ProductRepository productRepository;
     private final DtoMapper dtoMapper;
 
-    public ProductCrudServiceImpl(ProductsRepository productsRepository, DtoMapper dtoMapper) {
-        this.productsRepository = productsRepository;
+    public ProductCrudServiceImpl(ProductRepository productRepository, DtoMapper dtoMapper) {
+        this.productRepository = productRepository;
         this.dtoMapper = dtoMapper;
     }
 
@@ -29,7 +29,7 @@ public class ProductCrudServiceImpl implements ProductCrudService {
      * @return Response OK with list of ProductDtos objects
      */
     public ResponseEntity<List<ProductDto>> showAllProducts() {
-        return ResponseEntity.ok(productsRepository.findAll()
+        return ResponseEntity.ok(productRepository.findAll()
                 .stream().map(dtoMapper::from).collect(Collectors.toList()));
     }
 
@@ -39,7 +39,7 @@ public class ProductCrudServiceImpl implements ProductCrudService {
      * @return Response OK with ProductDto object if it's found, or Response NOT_FOUND if it isn't found
      */
     public ResponseEntity<ProductDto> showProductById(long id) {
-        Optional<Product> product = productsRepository.findById(id);
+        Optional<Product> product = productRepository.findById(id);
         return product.map(a -> ResponseEntity.ok(dtoMapper.from(a)))
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -51,7 +51,7 @@ public class ProductCrudServiceImpl implements ProductCrudService {
      */
     public ResponseEntity<ProductDto> addOrUpdateProduct(ProductDto productDto) {
         Product product = dtoMapper.from(productDto);
-        return ResponseEntity.ok(dtoMapper.from(productsRepository.save(product)));
+        return ResponseEntity.ok(dtoMapper.from(productRepository.save(product)));
     }
 
     /**
@@ -60,9 +60,9 @@ public class ProductCrudServiceImpl implements ProductCrudService {
      * @return Response NOT_FOUND if there's no object with this id OR Response OK with deleted object with null id
      */
     public ResponseEntity<ProductDto> delete (long id) {
-        Optional<Product> product = productsRepository.findById(id);
+        Optional<Product> product = productRepository.findById(id);
         if(product.isPresent()) {
-            productsRepository.delete(product.get());
+            productRepository.delete(product.get());
             product.get().setId(null);
             return ResponseEntity.ok(dtoMapper.from(product.get()));
         }

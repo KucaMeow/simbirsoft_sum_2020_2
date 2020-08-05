@@ -45,4 +45,10 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "status_id")
     private OrderStatus orderStatus;
+
+    /**
+     * Is true when order is processed and ready to deliver
+     */
+    @Column(name = "is_processed")
+    private boolean isProcessed;
 }

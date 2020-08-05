@@ -19,15 +19,15 @@ public class WriteOffServiceImpl implements WriteOffService {
     private final DtoMapper dtoMapper;
     private final WriteOffRepository writeOffRepository;
     private final TransactionRepository transactionRepository;
-    private final ProductsRepository productsRepository;
+    private final ProductRepository productRepository;
     private final ShopRepository shopRepository;
     private final ProductsInfoRepository productsInfoRepository;
 
-    public WriteOffServiceImpl(DtoMapper dtoMapper, WriteOffRepository writeOffRepository, TransactionRepository transactionRepository, ProductsRepository productsRepository, ShopRepository shopRepository, ProductsInfoRepository productsInfoRepository) {
+    public WriteOffServiceImpl(DtoMapper dtoMapper, WriteOffRepository writeOffRepository, TransactionRepository transactionRepository, ProductRepository productRepository, ShopRepository shopRepository, ProductsInfoRepository productsInfoRepository) {
         this.dtoMapper = dtoMapper;
         this.writeOffRepository = writeOffRepository;
         this.transactionRepository = transactionRepository;
-        this.productsRepository = productsRepository;
+        this.productRepository = productRepository;
         this.shopRepository = shopRepository;
         this.productsInfoRepository = productsInfoRepository;
     }
@@ -52,7 +52,7 @@ public class WriteOffServiceImpl implements WriteOffService {
             List<TransactionProductsInfo> productsInfos = new ArrayList<>();
 
             for(ProductInfoDto dto : writeOffDto.getProductInfoDtos()) {
-                Optional<Product> product = productsRepository.findById(dto.getProductId());
+                Optional<Product> product = productRepository.findById(dto.getProductId());
                 if(product.isPresent()) {
                     productsInfos.add(TransactionProductsInfo.builder()
                             .atStorage(writeOffDto.getShopId() == null)

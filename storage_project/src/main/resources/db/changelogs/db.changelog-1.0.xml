@@ -146,4 +146,10 @@
             <column name="is_confirmed" type="boolean"/>
         </createTable>
     </changeSet>
+
+    <changeSet id="8" author="Stepan">
+        <addColumn tableName="orders">
+            <column name="is_processed" type="boolean"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
