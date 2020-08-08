@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -15,6 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.stepan.ponomarev.storage_project.dto.MetricTypeDto;
 import ru.stepan.ponomarev.storage_project.model.MetricType;
+import ru.stepan.ponomarev.storage_project.security.config.WebSecurityConfig;
 import ru.stepan.ponomarev.storage_project.service.MetricTypeCrudServiceImpl;
 
 import java.util.Arrays;

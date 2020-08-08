@@ -120,7 +120,7 @@ public class OrderController {
      */
     @ApiOperation(value = "Cancel order by id. Delete order with id. Before deleting return goods to storage or shop if it was processed",
             produces = "OrderDto object of deleted Order")
-    @PostMapping("/order/{id}")
+    @PostMapping("/order/cancel/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<OrderDto> cancelOrder(@PathVariable Long id) {
         return orderService.cancelOrder(id);
