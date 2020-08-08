@@ -129,5 +129,4 @@ public class InvoiceControllerTest {
         mockMvc.perform(delete("/invoice/0"))
                 .andExpect(status().isNotFound());
     }
-
 }
