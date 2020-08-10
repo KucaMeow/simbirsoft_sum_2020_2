@@ -35,7 +35,7 @@ public class OrderController {
     }
 
     /**
-     * Getting all orderss from database
+     * Getting all orders from database
      * @return ResponseEntity OK with List of OrderDto objects
      */
     @ApiOperation(value = "Getting all orderss from database",
@@ -47,7 +47,7 @@ public class OrderController {
     }
 
     /**
-     * Save or Update invoice from OrderDto
+     * Save or Update order from OrderDto
      * @param orderDto OrderDto object with info to save or update
      * @return OrderDto with new id and it's transaction id if save, or updated OrderDto of updated Order
      */
