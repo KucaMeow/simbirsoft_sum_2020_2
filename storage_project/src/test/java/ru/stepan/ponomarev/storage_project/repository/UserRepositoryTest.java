@@ -1,6 +1,5 @@
 package ru.stepan.ponomarev.storage_project.repository;
 
-import lombok.With;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class UserRepositoryTest {
 
     @Autowired
-    UsersRepository usersRepository;
+    UserRepository userRepository;
 
     @Test
     void getUserInfoByUsernameTest() {
@@ -27,9 +26,9 @@ public class UserRepositoryTest {
                 .hashedPassword("TEST")
                 .balance(100)
                 .build();
-        usersRepository.save(user);
+        userRepository.save(user);
         UserInfo toCompare = UserInfo.builder().username("TEST").balance(100).build();
-        UserInfo userInfo = usersRepository.getUserInfoByUsername("TEST");
+        UserInfo userInfo = userRepository.getUserInfoByUsername("TEST");
         assertEquals(toCompare, userInfo);
     }
 

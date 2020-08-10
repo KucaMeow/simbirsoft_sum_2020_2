@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.stepan.ponomarev.storage_project.dto.SignInDto;
 import ru.stepan.ponomarev.storage_project.dto.TokenDto;
 import ru.stepan.ponomarev.storage_project.model.User;
-import ru.stepan.ponomarev.storage_project.repository.UsersRepository;
+import ru.stepan.ponomarev.storage_project.repository.UserRepository;
 
 import java.nio.file.AccessDeniedException;
 import java.util.Optional;
@@ -19,14 +19,14 @@ import java.util.Optional;
 @Service
 public class SignInServiceImpl implements SignInService {
 
-    final private UsersRepository usersRepository;
+    final private UserRepository userRepository;
     final private PasswordEncoder passwordEncoder;
 
     @Value("${jwt.secret}")
     private String secret;
 
-    public SignInServiceImpl(UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
-        this.usersRepository = usersRepository;
+    public SignInServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -38,7 +38,7 @@ public class SignInServiceImpl implements SignInService {
      */
     @Override
     public TokenDto signIn(SignInDto signInDto) throws AccessDeniedException {
-        Optional<User> userOptional = usersRepository.findUserByUsername(signInDto.getUsername());
+        Optional<User> userOptional = userRepository.findUserByUsername(signInDto.getUsername());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             if (passwordEncoder.matches(signInDto.getPassword(), user.getHashedPassword())) {

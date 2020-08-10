@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 /**
- * Orders of users purchases
+ * Invoice object for adding products to storage
  */
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "orders")
-public class Order {
+@Table(name = "writing_off")
+public class WriteOff {
     /**
      * Id of record of object
      */
@@ -26,13 +26,6 @@ public class Order {
     private Long id;
 
     /**
-     * User account - owner of order
-     */
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User customer;
-
-    /**
      * Transaction object for order
      */
     @OneToOne
@@ -40,15 +33,8 @@ public class Order {
     private Transaction transaction;
 
     /**
-     * Status of order
+     * Boolean value of confirmation of this writing off. True if confirmed
      */
-    @ManyToOne
-    @JoinColumn(name = "status_id")
-    private OrderStatus orderStatus;
-
-    /**
-     * Is true when order is processed and ready to deliver
-     */
-    @Column(name = "is_processed")
-    private boolean isProcessed;
+    @Column(name = "is_confirmed")
+    private boolean isConfirmed;
 }

@@ -133,4 +133,23 @@
             <column name="role" type="varchar(64)"/>
         </addColumn>
     </changeSet>
+
+    <changeSet id="7" author="Stepan">
+        <createTable tableName="invoices">
+            <column name="id" type="bigint" autoIncrement="true"/>
+            <column name="transaction_id" type="bigint"/>
+            <column name="is_confirmed" type="boolean"/>
+        </createTable>
+        <createTable tableName="writing_off">
+            <column name="id" type="bigint" autoIncrement="true"/>
+            <column name="transaction_id" type="bigint"/>
+            <column name="is_confirmed" type="boolean"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="8" author="Stepan">
+        <addColumn tableName="orders">
+            <column name="is_processed" type="boolean"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
