@@ -50,5 +50,5 @@ public class Order {
      * Is true when order is processed and ready to deliver
      */
     @Column(name = "is_processed")
-    private boolean isProcessed;
+    private boolean processed;
 }
