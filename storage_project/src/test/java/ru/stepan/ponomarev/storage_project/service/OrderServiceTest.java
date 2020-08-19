@@ -92,7 +92,7 @@ public class OrderServiceTest {
                 .transaction(transaction)
                 .orderStatus(orderStatus)
                 .customer(User.builder().build())
-                .isProcessed(false)
+                .processed(false)
                 .build();
 
         given(orderRepository.findById(0L)).willReturn(Optional.empty());
@@ -159,7 +159,7 @@ public class OrderServiceTest {
                 .transaction(transaction)
                 .orderStatus(orderStatus)
                 .customer(User.builder().build())
-                .isProcessed(true)
+                .processed(true)
                 .build();
         assertEquals(ResponseEntity.ok(dtoMapper.from(processedOrder)),
                 orderService.processOrder(1L));
